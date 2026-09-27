@@ -1,0 +1,297 @@
+@import "tailwindcss";
+
+/* Tema, <html data-theme="light|dark"> ile değişir. Varsayılan: light */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/* =========================================================================
+   TEMA TOKEN'LARI — Sitenin tüm renkleri buradan yönetilir.
+   Marka rengini değiştirmek için --brand değerlerini değiştir (logodaki yeşil: #108A6E).
+   ========================================================================= */
+:root,
+[data-theme="light"] {
+  --background: #ffffff;
+  --surface: #f5f5f2; /* açık gri bölümler (referanslar, testimonial, iletişim) */
+  --surface-2: #ecece8;
+  --foreground: #101110;
+  --muted: #62625d;
+  --border: #e6e6e1;
+  --brand: #108a6e;
+  --brand-foreground: #ffffff;
+  --brand-soft: #e4f1ec; /* ikon zeminleri, seçili durumlar */
+  --accent-text: var(--brand); /* başlıklarda *vurgulu* kelime rengi */
+  --logo-filter: invert(1) grayscale(1); /* beyaz referans logoları açık zeminde koyulaşır */
+  --footer-bg: #101110; /* footer her iki temada da koyu */
+  --paper: #ffffff; /* film şeridi kart zemini */
+  --paper-foreground: #101110;
+  --paper-muted: #5d5c57;
+  --shadow: 0 24px 50px -28px rgb(0 0 0 / 0.35);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --background: #0e0f0e;
+  --surface: #161816;
+  --surface-2: #1f221f;
+  --foreground: #efeee9;
+  --muted: #9b9a94;
+  --border: rgb(239 238 233 / 0.1);
+  --brand: #16a382;
+  --brand-foreground: #03110c;
+  --brand-soft: rgb(22 163 130 / 0.15);
+  --accent-text: #5fd9b6;
+  --logo-filter: none;
+  --footer-bg: #070807;
+  --paper: #1a1d1a;
+  --paper-foreground: #efeee9;
+  --paper-muted: #a3a29c;
+  --shadow: 0 24px 50px -28px rgb(0 0 0 / 0.8);
+  color-scheme: dark;
+}
+
+/* Video üzerindeki metinler ve RNG Sport bloğu: her iki temada da koyu zemin + açık metin */
+.on-dark,
+[data-theme="light"] .on-dark {
+  --background: #0b0c0b;
+  --surface: #161816;
+  --surface-2: #1f221f;
+  --foreground: #f5f4ef;
+  --muted: #a9a9a3;
+  --border: rgb(255 255 255 / 0.12);
+  --brand: #16a382;
+  --brand-foreground: #ffffff;
+  --accent-text: #7fe3c6;
+  --logo-filter: none;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter-tight), var(--font-inter), ui-sans-serif, sans-serif;
+
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =========================================================================
+   LAYOUT DEĞİŞKENLERİ
+   ========================================================================= */
+:root {
+  --section-y: 4.5rem; /* bölüm dikey boşluğu */
+  --gutter: 1.25rem; /* container yan boşluğu */
+  --nav-h: 76px;
+}
+@media (min-width: 768px) {
+  :root {
+    --section-y: 5.5rem;
+    --gutter: 2rem;
+  }
+}
+@media (min-width: 1280px) {
+  :root {
+    --section-y: 7rem;
+    --nav-h: 88px;
+  }
+}
+
+/* =========================================================================
+   TİPOGRAFİ SİSTEMİ — tüm başlık boyutları burada.
+   Başlıklarda *kelime* → marka renginde vurgu (.accent)
+   ========================================================================= */
+@utility font-display {
+  font-family: var(--font-display);
+}
+@utility text-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.625rem, 1.5rem + 3.8vw, 4.375rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+@utility text-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.5rem + 2.6vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.032em;
+  font-weight: 600;
+}
+@utility text-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 1.35rem + 1.8vw, 2.875rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+@utility text-h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+/* Kart başlıkları (blog, referans, ekip, RNG özellikleri) */
+@utility text-h4 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+@utility text-body {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+@utility text-small {
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+/* Küçük üst başlık (eyebrow): "NELER YAPIYORUZ" */
+@utility text-label {
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility accent {
+  font-style: normal;
+  color: var(--accent-text);
+}
+
+/* Beyaz referans logoları temaya göre renklenir */
+@utility logo-mono {
+  filter: var(--logo-filter);
+}
+
+/* Hizmet numaraları: normalde kontur, üzerine gelince alttan yeşille dolar */
+.num-fill {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--foreground) 25%, transparent);
+  background: linear-gradient(var(--brand), var(--brand)) no-repeat 0 100% / 100% 0%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition:
+    background-size 0.6s var(--ease-brand),
+    -webkit-text-stroke-color 0.3s;
+}
+.group:hover .num-fill,
+.group:focus-within .num-fill,
+.num-fill[data-active="true"] {
+  background-size: 100% 100%;
+  -webkit-text-stroke-color: var(--brand);
+}
+
+/* =========================================================================
+   TEMEL STİLLER
+   ========================================================================= */
+@layer base {
+  html {
+    background: var(--background);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+  }
+  body {
+    overflow-x: clip;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background: var(--brand);
+    color: var(--brand-foreground);
+  }
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+/* =========================================================================
+   FİLM ŞERİDİ (Neden Range Media) — kart zemini --paper (light: beyaz, dark: koyu)
+   Delikler kart zemin rengiyle aynı olmalı → dark temada ayrı SVG
+   ========================================================================= */
+.film-perf {
+  height: 26px;
+  background-color: #121312;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='26'%3E%3Crect x='6' y='8.5' width='22' height='9' rx='4' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-size: 34px 26px;
+  background-repeat: repeat-x;
+}
+[data-theme="dark"] .film-perf {
+  background-color: #070807;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='26'%3E%3Crect x='6' y='8.5' width='22' height='9' rx='4' fill='%231a1d1a'/%3E%3C/svg%3E");
+}
+
+/* =========================================================================
+   MARQUEE (kayan logo şeritleri)
+   ========================================================================= */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 60s) linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.scroll-cue {
+  animation: scroll-cue 2.4s var(--ease-brand) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .scroll-cue {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
