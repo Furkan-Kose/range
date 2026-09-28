@@ -23,7 +23,7 @@ export function Testimonials({ locale }: { locale: Locale }) {
     <section
       aria-labelledby="testimonials-title"
       aria-roledescription="carousel"
-      className="relative bg-surface pt-[var(--section-y)] pb-[calc(var(--section-y)+clamp(32px,5vw,80px))]"
+      className="relative overflow-x-clip bg-surface pt-[var(--section-y)] pb-[calc(var(--section-y)+clamp(32px,5vw,80px))]"
     >
       <Container>
         <Camera3D>

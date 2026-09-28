@@ -205,6 +205,8 @@
     background: var(--background);
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: calc(var(--nav-h) + 1rem);
+    /* Mobil tarayıcılar body'deki clip'i sayfa genişliği için saymıyor → html'de de kes (3D animasyonlar taşmasın) */
+    overflow-x: clip;
   }
   body {
     overflow-x: clip;

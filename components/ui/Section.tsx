@@ -17,7 +17,7 @@ export function Section({ children, id, className = "", tone = "default", divide
   return (
     <section
       id={id}
-      className={`relative py-[var(--section-y)] ${divider ? "pb-[calc(var(--section-y)+clamp(32px,5vw,80px))]" : ""} ${
+      className={`relative overflow-x-clip py-[var(--section-y)] ${divider ? "pb-[calc(var(--section-y)+clamp(32px,5vw,80px))]" : ""} ${
         tone === "soft" ? "bg-surface" : "bg-background"
       } ${className}`}
       {...aria}

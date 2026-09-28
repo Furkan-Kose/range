@@ -94,7 +94,7 @@ export function ContactSection({
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className={`relative py-[var(--section-y)] ${soft ? "bg-surface" : "bg-background"}`}
+      className={`relative overflow-x-clip py-[var(--section-y)] ${soft ? "bg-surface" : "bg-background"}`}
     >
       <Container>
         <Camera3D>
