@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { renderAccents } from "@/components/ui/RichText";
 import { EASE } from "./Reveal";
+import { useIntroReady } from "./intro";
 
 type Props = {
   text: string; // *vurgu* ve \n destekler
@@ -10,7 +11,7 @@ type Props = {
   className?: string;
   id?: string;
   delay?: number;
-  /** true: sayfa açılışında hemen oynar (hero). false: görünür alana girince. */
+  /** true: sayfa açılışında oynar (hero) — açılış animasyonu varsa perde kalkınca. false: görünür alana girince. */
   immediate?: boolean;
 };
 
@@ -18,8 +19,9 @@ type Props = {
 export function TextReveal({ text, as = "h2", className, id, delay = 0, immediate = false }: Props) {
   const Tag = motion[as];
   const lines = text.split("\n");
+  const introReady = useIntroReady();
   const trigger = immediate
-    ? { animate: "show" as const }
+    ? { animate: introReady ? ("show" as const) : ("hidden" as const) }
     : { whileInView: "show" as const, viewport: { once: true, margin: "0px 0px -10% 0px" } };
 
   return (

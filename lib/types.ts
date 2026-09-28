@@ -9,6 +9,8 @@ export type MediaItem = {
   image?: string; // "/images/..." — video varsa poster olarak da kullanılır
   video?: string; // "/videos/..." (mp4)
   alt?: Localized;
+  /** Videonun yönü — yerleşimi belirler (varsayılan yatay) */
+  orientation?: "vertical" | "horizontal";
 };
 
 export type Service = {
@@ -18,21 +20,20 @@ export type Service = {
   shortDescription: Localized;
   headline: Localized; // detay sayfası alt başlığı
   body: Localized[]; // detay sayfası paragrafları
-  methods: Localized[]; // alt hizmetler — ilki ana sayfada görselin üstündeki etiket olarak görünür
+  methods: Localized[]; // alt hizmetler (şu an ana sayfada gösterilmiyor)
   media: MediaItem; // ana sayfa + detay sayfası görseli/videosu
 };
 
 export type Reference = {
   slug: string;
   name: string;
-  category: Localized;
   shortDescription?: Localized; // liste/önizleme metni (yoksa description kısaltılır)
   description?: Localized;
   logo: string; // "/images/references/logos/<slug>.webp" (beyaz, transparan)
   coverImage?: string; // "/images/references/covers/<slug>.jpg"
   gallery?: string[]; // "/images/references/<slug>/1.jpg" ...
   videos?: string[]; // Vimeo / YouTube linkleri veya "/videos/references/..." mp4
-  services: ServiceSlug[];
+  services: ServiceSlug[]; // şu an sitede kullanılmıyor (eski filtre için) — ileride hizmet↔referans bağlantısı için kalabilir
   featured?: boolean; // ana sayfada öne çıkan projeler listesinde gösterilir
   metadata?: { label: Localized; value: Localized }[]; // ör. Yıl, Sonuç
 };

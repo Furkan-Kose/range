@@ -4,7 +4,6 @@ import { localePath, t, type Locale } from "@/lib/i18n";
 import { existing } from "@/lib/media";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
-import { Eyebrow } from "@/components/ui/SectionHeading";
 import { BackgroundVideo } from "@/components/ui/BackgroundVideo";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { Reveal } from "@/components/motion/Reveal";
@@ -22,18 +21,18 @@ export function Hero({ locale }: { locale: Locale }) {
         poster={existing(hero.poster)}
         eager
         controls
-        controlPosition="right-[var(--gutter)] bottom-[calc(var(--wave-lift)+clamp(32px,5vw,80px)+0.75rem)]"
+        controlPosition="left-[var(--gutter)] bottom-[calc(var(--wave-lift)+clamp(32px,5vw,80px)+0.75rem)]"
         controlLabels={{ play: t(ui.playVideo, locale), pause: t(ui.pauseVideo, locale) }}
         label={t(hero.videoLabel, locale)}
         className="absolute inset-0 h-full w-full object-cover"
       />
-      {/* Okunabilirlik: üstten (navbar) ve soldan (başlık) hafif karartma */}
+      {/* Okunabilirlik: üstten (navbar) hafif karartma + ortadaki metin için merkezden yayılan karartma */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgb(0 0 0 / 0.45) 0%, rgb(0 0 0 / 0) 24%), linear-gradient(90deg, rgb(0 0 0 / 0.6) 0%, rgb(0 0 0 / 0.18) 50%, rgb(0 0 0 / 0) 78%)",
+            "linear-gradient(180deg, rgb(0 0 0 / 0.45) 0%, rgb(0 0 0 / 0) 24%), radial-gradient(ellipse 70% 60% at 50% 50%, rgb(0 0 0 / 0.5) 0%, rgb(0 0 0 / 0.2) 70%, rgb(0 0 0 / 0.1) 100%)",
         }}
       />
       {/* Alt kenar: videonun altı hafif koyulaşır ve iç sayfa hero'larıyla aynı dalga ile kesilir (solma yok) */}
@@ -41,15 +40,12 @@ export function Hero({ locale }: { locale: Locale }) {
       <SectionDivider shape="wave" to="default" className="!bottom-[var(--wave-lift)]" />
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[calc(var(--wave-lift)+1px)] bg-background" />
 
-      <Container className="on-dark relative z-10 flex flex-1 items-center pt-[var(--nav-h)] pb-28 text-foreground">
-        <div className="max-w-2xl">
-          <Reveal delay={0.15}>
-            <Eyebrow className="!text-[#8fe6cc]">{t(hero.eyebrow, locale)}</Eyebrow>
-          </Reveal>
-          <TextReveal id="hero-title" as="h1" immediate delay={0.25} text={t(hero.title, locale)} className="text-display mt-5" />
-          <Reveal delay={0.55}>
-            <p className="text-body mt-6 max-w-md text-[1.125rem] text-white/85">{t(hero.description, locale)}</p>
-            <div className="mt-9 flex flex-wrap gap-3">
+      <Container className="on-dark relative z-10 flex flex-1 items-center justify-center pt-[var(--nav-h)] pb-28 text-center text-foreground">
+        <div className="mx-auto max-w-3xl">
+          <TextReveal id="hero-title" as="h1" immediate delay={0.25} text={t(hero.title, locale)} className="text-display" />
+          <Reveal delay={0.55} afterIntro>
+            <p className="text-body mx-auto mt-6 max-w-xl text-[1.125rem] text-white/85">{t(hero.description, locale)}</p>
+            <div className="mt-9 flex flex-wrap justify-center gap-3">
               <Button href={localePath("/references", locale)}>{t(ui.viewProjects, locale)}</Button>
               <Button href={localePath("/contact", locale)} variant="ghost" icon={false}>
                 {t(ui.contactCta, locale)}
@@ -62,7 +58,7 @@ export function Hero({ locale }: { locale: Locale }) {
       {/* Keşfet işareti */}
       <a
         href="#services"
-        className="text-label absolute bottom-[calc(var(--wave-lift)+clamp(32px,5vw,80px)+0.5rem)] left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-3 !tracking-[0.14em] text-white/80 transition-colors hover:text-white"
+        className="text-label absolute bottom-[calc(var(--wave-lift)+clamp(32px,5vw,80px)+0.5rem)] left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 md:flex !tracking-[0.14em] text-white/80 transition-colors hover:text-white"
       >
         {t(ui.explore, locale)}
         <span aria-hidden className="scroll-cue block h-10 w-px bg-brand" />

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { VolumeOff, VolumeOn } from "@/components/ui/icons";
 import { ui } from "@/content/navigation";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import { Reveal } from "@/components/motion/Reveal";
@@ -12,15 +13,71 @@ type Item = {
   number: string;
   title: string;
   description: string;
-  caption: string;
+  /** true: yatay video → video arka planlı geniş kart; false: dikey video → dar dikey kart */
+  wide: boolean;
   media: ReactNode;
 };
 
 type Segment = { x1: number; y1: number; x2: number; y2: number; len: number };
 
 /**
- * Hizmet satırları: görsel ve metin dönüşümlü. Desktop'ta görseller köşeden köşeye
- * çapraz bir hatla bağlanır; hat sayfa kaydırıldıkça yeşille dolar.
+ * Kartın içindeki videonun sesini açıp kapatır. Aynı anda tek video sesli çalar
+ * (birini açınca sayfadaki diğer videolar susar). Durum video'nun kendi "volumechange" olayından okunur.
+ */
+function SoundToggle({ cardRef, labels }: { cardRef: RefObject<HTMLDivElement | null>; labels: { on: string; off: string } }) {
+  const [muted, setMuted] = useState(true);
+  useEffect(() => {
+    const video = cardRef.current?.querySelector("video");
+    if (!video) return;
+    const sync = () => setMuted(video.muted);
+    video.addEventListener("volumechange", sync);
+    return () => video.removeEventListener("volumechange", sync);
+  }, [cardRef]);
+
+  const toggle = () => {
+    const video = cardRef.current?.querySelector("video");
+    if (!video) return;
+    if (video.muted) {
+      document.querySelectorAll("video").forEach((v) => {
+        if (v !== video) v.muted = true;
+      });
+      video.muted = false;
+      video.play().catch(() => {});
+    } else {
+      video.muted = true;
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-pressed={!muted}
+      aria-label={muted ? labels.on : labels.off}
+      className="absolute top-4 right-4 z-20 grid size-10 place-items-center rounded-full border border-white/30 bg-black/35 text-white backdrop-blur-sm transition-colors hover:border-brand hover:bg-brand"
+    >
+      {muted ? <VolumeOff width={18} height={18} /> : <VolumeOn width={18} height={18} />}
+    </button>
+  );
+}
+
+/** Dikey video kartı: video + tıklanınca detaya giden görünmez link + ses düğmesi (link dışında). Üstünde etiket yok. */
+function VerticalCard({ href, media, labels }: { href: string; media: ReactNode; labels: { on: string; off: string } }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  return (
+    <div ref={cardRef} className="relative aspect-[4/5] overflow-hidden rounded-[20px] lg:aspect-[9/16]">
+      <div className="absolute inset-0 transition-transform duration-[1.2s] ease-brand group-hover:scale-[1.04]">{media}</div>
+      <Link href={href} tabIndex={-1} aria-hidden className="absolute inset-0 z-10" />
+      <SoundToggle cardRef={cardRef} labels={labels} />
+    </div>
+  );
+}
+
+/**
+ * Hizmet satırları.
+ * - Dikey videolu hizmet: dar dikey (9:16) kart + metin, satırlar dönüşümlü (sol/sağ).
+ * - Yatay videolu hizmet: tam genişlik kart, video arka planda, metin üstünde.
+ * Desktop'ta kartlar köşeden köşeye çapraz bir hatla bağlanır; hat sayfa kaydırıldıkça yeşille dolar.
  * Numara normalde kontur, satırın üzerine gelince yeşille dolar (.num-fill, globals.css).
  */
 export function ServicesList({ items, locale, spaced = true }: { items: Item[]; locale: Locale; spaced?: boolean }) {
@@ -38,17 +95,33 @@ export function ServicesList({ items, locale, spaced = true }: { items: Item[]; 
         setSegments([]);
         return;
       }
-      const r = wrap.getBoundingClientRect();
-      const boxes = mediaRefs.current.map((m) => m?.getBoundingClientRect());
+      // Layout koordinatları (offset zinciri) → 3D kamera dönüşümleri ölçümü bozmaz
+      const abs = (el: HTMLElement) => {
+        let left = 0;
+        let top = 0;
+        for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) {
+          left += n.offsetLeft;
+          top += n.offsetTop;
+        }
+        return { left, top };
+      };
+      const r = abs(wrap);
+      const boxes = mediaRefs.current.map((m) => {
+        if (!m) return undefined;
+        const o = abs(m);
+        return { left: o.left, top: o.top, right: o.left + m.offsetWidth, bottom: o.top + m.offsetHeight };
+      });
       const segs: Segment[] = [];
       for (let i = 0; i < boxes.length - 1; i++) {
         const a = boxes[i];
         const b = boxes[i + 1];
         if (!a || !b) continue;
         // Çift satırda görsel solda → sağ-alt köşeden; tek satırda sağda → sol-alt köşeden çık
-        const x1 = (i % 2 === 0 ? a.right : a.left) - r.left;
+        const aOnLeft = i % 2 === 0;
+        const x1 = (aOnLeft ? a.right : a.left) - r.left;
         const y1 = a.bottom - r.top;
-        const x2 = ((i + 1) % 2 === 1 ? b.left : b.right) - r.left;
+        // Hedef: bir sonraki kartın üst köşesi. Geniş kartta zikzak devam etsin diye ters taraftaki köşe.
+        const x2 = (items[i + 1]?.wide ? (aOnLeft ? b.right : b.left) : aOnLeft ? b.left : b.right) - r.left;
         const y2 = b.top - r.top;
         segs.push({ x1, y1, x2, y2, len: Math.hypot(x2 - x1, y2 - y1) });
       }
@@ -62,7 +135,7 @@ export function ServicesList({ items, locale, spaced = true }: { items: Item[]; 
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [items.length]);
+  }, [items]);
 
   // Kaydırdıkça her parçanın dolma oranı
   useEffect(() => {
@@ -138,41 +211,84 @@ export function ServicesList({ items, locale, spaced = true }: { items: Item[]; 
         {items.map((item, i) => {
           const reversed = i % 2 === 1;
           const href = localePath(`/services/${item.slug}`, locale);
-          return (
-            <li key={item.slug} className="group grid items-center gap-8 py-10 first:pt-0 lg:grid-cols-2 lg:gap-28 lg:py-16 lg:first:pt-0">
-              <div ref={(el) => void (mediaRefs.current[i] = el)} className={`relative z-[1] ${reversed ? "lg:order-2" : ""}`}>
-                <ImageReveal className="overflow-hidden rounded-[20px]">
-                  <Link href={href} tabIndex={-1} aria-hidden className="relative block aspect-[16/11] overflow-hidden rounded-[20px]">
-                    <div className="absolute inset-0 transition-transform duration-[1.2s] ease-brand group-hover:scale-[1.04]">
-                      {item.media}
+          const setRef = (el: HTMLDivElement | null) => void (mediaRefs.current[i] = el);
+          const number = (
+            <span aria-hidden className="num-fill text-[4.5rem] md:text-[6rem]">
+              {item.number}
+            </span>
+          );
+          const cta = (
+            <Link
+              href={href}
+              className="mt-7 inline-flex items-center gap-2 rounded-lg border border-foreground/20 px-5 py-3 text-[0.9375rem] font-semibold transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-brand-foreground"
+            >
+              {t(ui.discover, locale)} <span aria-hidden>→</span>
+              <span className="sr-only">: {item.title}</span>
+            </Link>
+          );
+
+          // YATAY VİDEO: tam genişlik kart, video arka planda, metin üstünde
+          if (item.wide) {
+            return (
+              <li key={item.slug} className="group py-10 first:pt-0 lg:py-16 lg:first:pt-0">
+                <div ref={setRef} data-tilt="sm" className="relative z-[1] rounded-[20px]">
+                  <ImageReveal className="overflow-hidden rounded-[20px]">
+                    <div className="on-dark relative flex min-h-[560px] flex-col justify-end overflow-hidden rounded-[20px] text-foreground md:min-h-0 md:aspect-[16/8] md:justify-center">
+                      <div className="absolute inset-0 transition-transform duration-[1.2s] ease-brand group-hover:scale-[1.03]">
+                        {/* Videodaki gömülü siyah şeritleri (letterbox) kırpmak için büyütülür */}
+                        <div className="absolute inset-0 scale-[1.36] md:scale-[1.22]">{item.media}</div>
+                      </div>
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgb(0_0_0/0.8)_0%,rgb(0_0_0/0.35)_55%,rgb(0_0_0/0.1)_100%)] md:bg-[linear-gradient(90deg,rgb(0_0_0/0.78)_0%,rgb(0_0_0/0.45)_45%,rgb(0_0_0/0.05)_80%)]"
+                      />
+                      <Reveal className="relative z-10 max-w-lg p-7 md:p-14 lg:p-16">
+                        {number}
+                        <h3 className="text-h2 mt-3">
+                          <Link href={href} className="transition-colors hover:text-brand">
+                            {item.title}
+                          </Link>
+                        </h3>
+                        <p className="text-body mt-4 text-white/80">{item.description}</p>
+                        {cta}
+                      </Reveal>
                     </div>
-                    {item.caption && (
-                      <span className="text-small absolute bottom-4 left-4 z-10 flex items-center gap-2 rounded-[10px] bg-white/95 px-3.5 py-2 font-medium text-[#101110]">
-                        <span aria-hidden className="size-2 rounded-full bg-brand" />
-                        {item.caption}
-                      </span>
-                    )}
-                  </Link>
+                  </ImageReveal>
+                </div>
+              </li>
+            );
+          }
+
+          // DİKEY VİDEO: 360px dikey kart + metin (sol/sağ dönüşümlü).
+          // Hizalama kuralı: video kapsayıcının kenarına yaslı → tüm satırların sol/sağ kenarları aynı çizgide.
+          // Mobilde tam genişlik (4:5), masaüstünde 9:16.
+          return (
+            <li
+              key={item.slug}
+              className={`group grid items-center gap-8 py-10 first:pt-0 lg:gap-28 lg:py-16 lg:first:pt-0 ${
+                reversed ? "lg:grid-cols-[1fr_360px]" : "lg:grid-cols-[360px_1fr]"
+              }`}
+            >
+              <div ref={setRef} data-tilt className={`relative z-[1] w-full rounded-[20px] ${reversed ? "lg:order-2" : ""}`}>
+                <ImageReveal className="overflow-hidden rounded-[20px]">
+                  <VerticalCard
+                    href={href}
+                    media={item.media}
+                    labels={{ on: t(ui.soundOn, locale), off: t(ui.soundOff, locale) }}
+                  />
                 </ImageReveal>
               </div>
 
-              <Reveal className={reversed ? "lg:order-1" : ""}>
-                <span aria-hidden className="num-fill text-[4.5rem] md:text-[6rem]">
-                  {item.number}
-                </span>
+              {/* Metin HER satırda videosunun hemen yanında (aynı boşluk, aynı genişlik) → 2. satır 1. satırın ayna görüntüsü */}
+              <Reveal className={`w-full lg:max-w-[448px] ${reversed ? "lg:order-1 lg:justify-self-end" : ""}`}>
+                {number}
                 <h3 className="text-h2 mt-3">
                   <Link href={href} className="transition-colors hover:text-brand">
                     {item.title}
                   </Link>
                 </h3>
-                <p className="text-body mt-4 max-w-md text-muted">{item.description}</p>
-                <Link
-                  href={href}
-                  className="mt-7 inline-flex items-center gap-2 rounded-lg border border-foreground/20 px-5 py-3 text-[0.9375rem] font-semibold transition-colors group-hover:border-brand group-hover:bg-brand group-hover:text-brand-foreground"
-                >
-                  {t(ui.discover, locale)} <span aria-hidden>→</span>
-                  <span className="sr-only">: {item.title}</span>
-                </Link>
+                <p className="text-body mt-4 text-muted">{item.description}</p>
+                {cta}
               </Reveal>
             </li>
           );

@@ -3,11 +3,13 @@ import type { Service } from "@/lib/types";
 // Hizmetler — ana sayfadaki "Neler Yapıyoruz" bölümü ve /services/[slug] sayfaları buradan okur.
 // Yeni hizmet eklemek için: lib/types.ts içindeki ServiceSlug'a slug'ı ekle, sonra bu diziye yeni obje ekle.
 // Medya: dosyaları public/images/services/ ve public/videos/services/ altına koy, yolları buraya yaz.
+// orientation: "vertical" (dikey video → ana sayfada dar dikey kart) | "horizontal" (yatay → video arka planlı geniş kart).
+// Sıra = ana sayfadaki sıra (kullanıcı isteği: Prodüksiyon, Sosyal Medya, AI Prodüksiyon).
 // EN: metinler TR'den çevrildi — gözden geçir.
 
 export const servicesSection = {
-  eyebrow: { tr: "Neler Yapıyoruz", en: "What We Do" },
-  title: { tr: "Hizmetlerimiz", en: "Our Services" },
+  eyebrow: { tr: "Hizmetlerimiz", en: "Our Services" },
+  title: { tr: "Neler Yapıyoruz", en: "What We Do" },
   // /services sayfası
   pageTitle: { tr: "Neler Yapıyoruz", en: "What We Do" },
   pageDescription: {
@@ -15,56 +17,15 @@ export const servicesSection = {
     en: "We manage production, AI production and social media within one creative structure where strategy and production sit in the same team.",
   },
   description: {
-    tr: "Strateji, prodüksiyon ve yayını aynı ekip içinde yönetiyoruz.",
-    en: "We run strategy, production and publishing within the same team.",
+    tr: "Her şeyi yapmaya çalışmıyoruz. 360 derece hizmet veren bir ajans olmak yerine; hizmetlerimizi güncel teknoloji ve bakış açımızla bir araya getiriyoruz. Çünkü farkın, daha fazla hizmet sıralamakla değil; doğru alanlarda daha güçlü işler üretmekle oluştuğuna inanıyoruz.",
+    en: "We don't try to do everything. Rather than being a 360-degree agency, we bring our services together with up-to-date technology and our own perspective — because we believe the difference comes not from listing more services, but from producing stronger work in the right areas.",
   },
 };
 
 export const services: Service[] = [
   {
-    slug: "ai-produksiyon",
-    number: "01",
-    title: { tr: "AI Prodüksiyon", en: "AI Production" },
-    shortDescription: {
-      tr: "Yapay zekâyı yalnızca hız kazanmak için değil, yeni anlatım biçimleri oluşturmak için kullanıyoruz. Markalara özel görsel dünyalar, reklam içerikleri ve yeni nesil dijital prodüksiyonlar tasarlıyoruz.",
-      en: "We use AI not just to move faster, but to create new ways of storytelling. We design brand-specific visual worlds, advertising content and next-generation digital productions.",
-    },
-    headline: {
-      tr: "Fikrin sınırlarını genişleten yeni nesil prodüksiyon",
-      en: "Next-generation production that expands the limits of an idea",
-    },
-    body: [
-      {
-        tr: "AI prodüksiyonu, birkaç komutla hızlı içerik üretmekten ibaret görmüyoruz. Yapay zekânın sunduğu imkânları yaratıcı yönetmenlik, tasarım ve prodüksiyon deneyimimizle birleştiriyoruz.",
-        en: "We don't see AI production as generating quick content with a few prompts. We combine what AI makes possible with our experience in creative direction, design and production.",
-      },
-      {
-        tr: "Her projeye markanın kimliği, hedefi ve iletişim dili üzerinden yaklaşıyoruz. Hazır şablonlarla ilerlemek yerine projeye özel bir görsel dünya oluşturuyor; fikrin ilk taslağından son görüntüsüne kadar her aşamayı yaratıcı bir bütünlük içinde yönetiyoruz.",
-        en: "We approach every project through the brand's identity, goals and tone of voice. Instead of relying on templates, we build a visual world specific to the project and manage every stage — from the first sketch of the idea to the final frame — as one creative whole.",
-      },
-      {
-        tr: "AI reklam filmleri, ürün görselleştirmeleri, sanal sahneler, konsept çalışmaları, yaratıcı içerik varyasyonları ve yapay zekâ destekli post-prodüksiyon süreçleri geliştiriyoruz. Böylece fiziksel prodüksiyonla gerçekleştirilmesi zor, maliyetli veya zaman alan fikirleri daha esnek bir üretim modeliyle hayata geçiriyoruz.",
-        en: "We develop AI commercials, product visualisations, virtual sets, concept work, creative content variations and AI-assisted post-production. This lets us bring to life ideas that would be difficult, costly or time-consuming to realise with physical production, through a more flexible production model.",
-      },
-      {
-        tr: "Amacımız yalnızca yeni teknolojileri kullanmak değil; markanız için gerçekten anlamlı, özgün ve iz bırakan işler üretmek.",
-        en: "Our goal isn't simply to use new technology — it's to create work that is genuinely meaningful, original and memorable for your brand.",
-      },
-    ],
-    methods: [
-      { tr: "AI reklam filmleri", en: "AI commercials" },
-      { tr: "Ürün görselleştirmeleri", en: "Product visualisation" },
-      { tr: "Sanal sahneler", en: "Virtual sets" },
-      { tr: "Konsept çalışmaları", en: "Concept development" },
-      { tr: "Yaratıcı içerik varyasyonları", en: "Creative content variations" },
-      { tr: "AI destekli post-prodüksiyon", en: "AI-assisted post-production" },
-    ],
-    // TODO: görsel/video ekle
-    media: { image: "/images/services/ai-produksiyon.jpg", video: "" },
-  },
-  {
     slug: "produksiyon",
-    number: "02",
+    number: "01",
     title: { tr: "Prodüksiyon", en: "Production" },
     shortDescription: {
       tr: "Fikirleri güçlü görüntülere dönüştürüyoruz. Reklam filmi, marka videosu, fotoğraf ve sosyal medya prodüksiyonlarını yaratıcı ekip, profesyonel ekipman ve güçlü post-prodüksiyonla hayata geçiriyoruz.",
@@ -102,11 +63,11 @@ export const services: Service[] = [
       { tr: "Kurgu, renk ve ses tasarımı", en: "Editing, colour & sound design" },
     ],
     // Şimdilik hero videosu kullanılıyor — TODO: hizmete özel görsel/video ekle
-    media: { image: "/images/services/produksiyon.jpg", video: "/videos/hero/hero.mp4" },
+    media: { image: "/images/services/produksiyon.jpg", video: "/videos/services/produksiyon.mp4", orientation: "vertical" },
   },
   {
     slug: "sosyal-medya-yonetimi",
-    number: "03",
+    number: "02",
     title: { tr: "Sosyal Medya Yönetimi", en: "Social Media Management" },
     shortDescription: {
       tr: "Sosyal medyayı yalnızca paylaşım yapılan bir alan olarak görmüyoruz. Markanızın dilini, içerik sistemini ve dijital görünürlüğünü strateji, üretim ve veriye dayalı yönetimle geliştiriyoruz.",
@@ -144,7 +105,48 @@ export const services: Service[] = [
       { tr: "Performans analizi", en: "Performance analysis" },
     ],
     // TODO: görsel/video ekle
-    media: { image: "/images/services/sosyal-medya-yonetimi.jpg", video: "" },
+    media: { image: "/images/services/sosyal-medya-yonetimi.jpg", video: "/videos/services/sosyal-medya.mp4", orientation: "vertical" },
+  },
+  {
+    slug: "ai-produksiyon",
+    number: "03",
+    title: { tr: "AI Prodüksiyon", en: "AI Production" },
+    shortDescription: {
+      tr: "Yapay zekâyı yalnızca hız kazanmak için değil, yeni anlatım biçimleri oluşturmak için kullanıyoruz. Markalara özel görsel dünyalar, reklam içerikleri ve yeni nesil dijital prodüksiyonlar tasarlıyoruz.",
+      en: "We use AI not just to move faster, but to create new ways of storytelling. We design brand-specific visual worlds, advertising content and next-generation digital productions.",
+    },
+    headline: {
+      tr: "Fikrin sınırlarını genişleten yeni nesil prodüksiyon",
+      en: "Next-generation production that expands the limits of an idea",
+    },
+    body: [
+      {
+        tr: "AI prodüksiyonu, birkaç komutla hızlı içerik üretmekten ibaret görmüyoruz. Yapay zekânın sunduğu imkânları yaratıcı yönetmenlik, tasarım ve prodüksiyon deneyimimizle birleştiriyoruz.",
+        en: "We don't see AI production as generating quick content with a few prompts. We combine what AI makes possible with our experience in creative direction, design and production.",
+      },
+      {
+        tr: "Her projeye markanın kimliği, hedefi ve iletişim dili üzerinden yaklaşıyoruz. Hazır şablonlarla ilerlemek yerine projeye özel bir görsel dünya oluşturuyor; fikrin ilk taslağından son görüntüsüne kadar her aşamayı yaratıcı bir bütünlük içinde yönetiyoruz.",
+        en: "We approach every project through the brand's identity, goals and tone of voice. Instead of relying on templates, we build a visual world specific to the project and manage every stage — from the first sketch of the idea to the final frame — as one creative whole.",
+      },
+      {
+        tr: "AI reklam filmleri, ürün görselleştirmeleri, sanal sahneler, konsept çalışmaları, yaratıcı içerik varyasyonları ve yapay zekâ destekli post-prodüksiyon süreçleri geliştiriyoruz. Böylece fiziksel prodüksiyonla gerçekleştirilmesi zor, maliyetli veya zaman alan fikirleri daha esnek bir üretim modeliyle hayata geçiriyoruz.",
+        en: "We develop AI commercials, product visualisations, virtual sets, concept work, creative content variations and AI-assisted post-production. This lets us bring to life ideas that would be difficult, costly or time-consuming to realise with physical production, through a more flexible production model.",
+      },
+      {
+        tr: "Amacımız yalnızca yeni teknolojileri kullanmak değil; markanız için gerçekten anlamlı, özgün ve iz bırakan işler üretmek.",
+        en: "Our goal isn't simply to use new technology — it's to create work that is genuinely meaningful, original and memorable for your brand.",
+      },
+    ],
+    methods: [
+      { tr: "AI reklam filmleri", en: "AI commercials" },
+      { tr: "Ürün görselleştirmeleri", en: "Product visualisation" },
+      { tr: "Sanal sahneler", en: "Virtual sets" },
+      { tr: "Konsept çalışmaları", en: "Concept development" },
+      { tr: "Yaratıcı içerik varyasyonları", en: "Creative content variations" },
+      { tr: "AI destekli post-prodüksiyon", en: "AI-assisted post-production" },
+    ],
+    // TODO: görsel/video ekle
+    media: { image: "/images/services/ai-produksiyon.jpg", video: "/videos/services/ai-produksiyon.mp4", orientation: "horizontal" },
   },
 ];
 

@@ -40,7 +40,7 @@ export default async function BlogPage({ params }: PageProps<"/[locale]/blog">) 
               <li key={post.slug}>
                 <Reveal delay={(i % 3) * 0.05}>
                   <Link href={localePath(`/blog/${post.slug}`, locale)} className="group block">
-                    <div className="overflow-hidden rounded-[20px]">
+                    <div data-tilt className="relative overflow-hidden rounded-[20px]">
                       <Media
                         src={post.cover}
                         alt={t(post.title, locale)}

@@ -33,7 +33,7 @@ export function MobileMenu({ open, onClose, locale }: Props) {
       {open && (
         <motion.div
           id="mobile-menu"
-          className="fixed inset-0 z-40 flex flex-col bg-background pt-[calc(var(--nav-h)+1rem)] lg:hidden"
+          className="fixed inset-0 z-40 flex flex-col bg-background pt-[calc(var(--nav-h)+1rem)] xl:hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

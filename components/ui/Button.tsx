@@ -41,13 +41,13 @@ export function Button({ href, children, variant = "primary", size = "md", class
 
   if (external || native) {
     return (
-      <a href={href} className={cls} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} {...rest}>
+      <a href={href} data-tilt="sm" className={cls} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} {...rest}>
         {content}
       </a>
     );
   }
   return (
-    <Link href={href} className={cls} {...rest}>
+    <Link href={href} data-tilt="sm" className={cls} {...rest}>
       {content}
     </Link>
   );

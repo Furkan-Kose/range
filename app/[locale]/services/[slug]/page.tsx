@@ -36,6 +36,7 @@ export default async function ServicePage({ params }: PageProps<"/[locale]/servi
   const locale = l as Locale;
   const service = getService(slug);
   if (!service) notFound();
+  const vertical = service.media.orientation === "vertical";
 
   const title = t(service.title, locale);
 
@@ -72,13 +73,15 @@ export default async function ServicePage({ params }: PageProps<"/[locale]/servi
                 ))}
               </div>
             </Reveal>
-            <ImageReveal className="overflow-hidden rounded-[20px] lg:sticky lg:top-28">
+            <ImageReveal
+              className={`overflow-hidden rounded-[20px] lg:sticky lg:top-28 ${vertical ? "mx-auto w-full max-w-[380px]" : ""}`}
+            >
               <Media
                 src={service.media.image}
                 video={service.media.video}
                 alt={title}
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="aspect-[4/3]"
+                className={vertical ? "aspect-[9/16]" : "aspect-video"}
                 priority
               />
             </ImageReveal>

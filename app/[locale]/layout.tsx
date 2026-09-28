@@ -5,6 +5,8 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Logo } from "@/components/layout/Logo";
+import { Intro } from "@/components/layout/Intro";
+import { FloatingContact } from "@/components/layout/FloatingContact";
 import { site } from "@/content/site";
 import { contact } from "@/content/contact";
 import { ui } from "@/content/navigation";
@@ -51,6 +53,10 @@ export const viewport: Viewport = {
 
 // Tema, sayfa boyanmadan önce ayarlanır (flash olmaz). Varsayılan: light.
 const themeScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
+// Açılış animasyonu: SADECE ana sayfa (/ ve /en), her tam yüklemede/yenilemede; "hareketi azalt" açıksa oynamaz.
+// Site içi link geçişlerinde oynamaz (script yalnızca tam sayfa yüklemesinde çalışır). components/layout/Intro.tsx
+// Güvenlik: 9 sn içinde bitmezse perde kendiliğinden kalkar.
+const introScript = `(function(){var d=document.documentElement,w=window;function end(){if(d.dataset.intro!=="run")return;d.dataset.introReveal="1";d.dataset.intro="done";w.dispatchEvent(new Event("intro:reveal"));w.dispatchEvent(new Event("intro:end"))}try{var home=/^\\/(en\\/?)?$/.test(location.pathname);var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;d.dataset.intro=home&&!reduce?"run":"skip"}catch(e){d.dataset.intro="skip"}if(d.dataset.intro==="run")setTimeout(end,9000)})()`;
 
 export default async function LocaleLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
@@ -88,6 +94,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
         <JsonLd data={orgJsonLd} />
         <JsonLd data={websiteJsonLd} />
       </head>
@@ -98,14 +105,16 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         >
           {t(ui.skipToContent, locale)}
         </a>
+        <Intro />
         <MotionProvider>
           <Navbar
             locale={locale}
-            logo={<Logo className="h-10 w-auto xl:h-11" priority />}
-            logoWhite={<Logo variant="white" className="h-10 w-auto xl:h-11" priority />}
+            logo={<Logo className="h-10 w-auto xl:h-16" priority />}
+            logoWhite={<Logo variant="white" className="h-10 w-auto xl:h-16" priority />}
           />
           <main id="main">{children}</main>
           <Footer locale={locale} />
+          <FloatingContact locale={locale} />
         </MotionProvider>
       </body>
     </html>

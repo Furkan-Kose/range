@@ -89,6 +89,7 @@
   --section-y: 4.5rem; /* bölüm dikey boşluğu */
   --gutter: 1.25rem; /* container yan boşluğu */
   --nav-h: 76px;
+  --nav-h-top: var(--nav-h); /* sayfanın en üstündeyken navbar yüksekliği (xl'de logo büyük → daha yüksek) */
 }
 @media (min-width: 768px) {
   :root {
@@ -100,6 +101,7 @@
   :root {
     --section-y: 7rem;
     --nav-h: 88px;
+    --nav-h-top: 112px;
   }
 }
 
@@ -293,5 +295,131 @@
   }
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* Açılış animasyonu (components/layout/Intro.tsx) — sadece html[data-intro="run"] iken görünür */
+.intro-overlay {
+  display: none;
+}
+html[data-intro="run"] .intro-overlay {
+  display: flex;
+}
+html[data-intro="run"] {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+html[data-intro="run"]:not([data-intro-land]) [data-nav-logo] {
+  opacity: 0;
+}
+
+/* Lenis yumuşak kaydırma (components/motion/SmoothScroll.tsx) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* =========================================================================
+   3D TILT — kartlar ve butonlar (components/motion/TiltManager.tsx)
+   data-tilt      → kart: 12° eğim + cam parlaması + yeşil yansıma
+   data-tilt="sm" → buton/küçük öğe: 7° eğim + yeşil yansıma
+   Tailwind v4 rotate/scale/translate ayrı CSS özellikleri kullandığı için bunlarla çakışmaz.
+   ========================================================================= */
+[data-tilt] {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.6s var(--ease-brand),
+    box-shadow 0.45s var(--ease-brand);
+}
+[data-tilt][data-tilting] {
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) scale3d(1.035, 1.035, 1.035);
+  transition:
+    transform 0.15s ease-out,
+    box-shadow 0.45s var(--ease-brand);
+  box-shadow:
+    calc(var(--gx, 0) * -30px) 24px 44px -16px color-mix(in srgb, var(--brand) 60%, transparent),
+    calc(var(--gx, 0) * -20px) calc(var(--gy, 0) * -14px + 6px) 28px -10px color-mix(in srgb, var(--brand) 38%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--brand) 24%, transparent);
+}
+[data-tilt="sm"][data-tilting] {
+  transform: perspective(600px) rotateX(var(--rx)) rotateY(var(--ry)) scale3d(1.04, 1.04, 1.04);
+  box-shadow:
+    calc(var(--gx, 0) * -16px) 12px 26px -10px color-mix(in srgb, var(--brand) 65%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--brand) 28%, transparent);
+}
+/* Cam parlaması: imlecin olduğu yerden yayılan ışık */
+[data-tilt]:not([data-tilt="sm"])::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at calc((var(--gx, 0) + 0.5) * 100%) calc((var(--gy, 0) + 0.5) * 100%),
+    rgb(255 255 255 / 0.32),
+    transparent 58%
+  );
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+[data-tilt][data-tilting]::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tilt],
+  [data-tilt][data-tilting] {
+    transform: none;
+  }
+}
+
+/* =========================================================================
+   SABİT İLETİŞİM (components/layout/FloatingContact.tsx)
+   ========================================================================= */
+.fab {
+  transition:
+    opacity 0.5s var(--ease-brand),
+    translate 0.5s var(--ease-brand);
+}
+html[data-intro="run"] .fab {
+  opacity: 0;
+  translate: 0 16px;
+  pointer-events: none;
+}
+/* WhatsApp: arada bir yayılan nabız halkası */
+.fab-pulse::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #25d366;
+  z-index: -1;
+  animation: fab-pulse 3.2s var(--ease-brand) infinite;
+}
+@keyframes fab-pulse {
+  0%,
+  55% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fab-pulse::before {
+    animation: none;
+    opacity: 0;
   }
 }

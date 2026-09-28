@@ -74,6 +74,18 @@ export const Pause = (p: P) => (
     <path d="M8 5v14M16 5v14" strokeWidth={2.2} />
   </svg>
 );
+export const VolumeOn = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Z" fill="currentColor" stroke="none" />
+    <path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
+  </svg>
+);
+export const VolumeOff = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Z" fill="currentColor" stroke="none" />
+    <path d="m16 9.5 5 5M21 9.5l-5 5" />
+  </svg>
+);
 export const Plus = (p: P) => (
   <svg {...base} {...p}>
     <path d="M12 5v14M5 12h14" />

@@ -18,8 +18,10 @@ export const normalizePath = (p: string) => p.replace(/^\/(tr|en)(?=\/|$)/, "") 
 type Props = { locale: Locale; logo: ReactNode; logoWhite: ReactNode };
 
 /**
- * Ana sayfada en üstteyken video üzerinde şeffaf ve beyaz yazılı;
- * kaydırınca (veya diğer sayfalarda) açık zemine geçer.
+ * En üstteyken şeffaf: ana sayfada video üzerinde beyaz yazılı, iç sayfalarda hero ile aynı zeminde koyu yazılı
+ * (ayrı bir beyaz şerit görünmesin). Kaydırınca (veya menü açıkken) açık zemin + blur + alt çizgi.
+ * Desktop (xl+): linkler solda, logo ortada (en üstte büyük, kaydırınca küçülür), sağ taraf aksiyonlar.
+ * Mobil/tablet (<xl): logo solda, sağda hamburger menü.
  */
 export function Navbar({ locale, logo, logoWhite }: Props) {
   const pathname = normalizePath(usePathname());
@@ -33,7 +35,8 @@ export function Navbar({ locale, logo, logoWhite }: Props) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const overHero = pathname === "/" && !scrolled && !open;
+  const atTop = !scrolled && !open;
+  const overHero = pathname === "/" && atTop;
   const isActive = (href: string) => !href.includes("#") && href !== "/" && pathname.startsWith(href);
 
   const iconBtn = `size-9 place-items-center rounded-lg transition-colors ${
@@ -46,17 +49,30 @@ export function Navbar({ locale, logo, logoWhite }: Props) {
         className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,color] duration-500 ease-brand ${
           overHero
             ? "on-dark border-transparent bg-transparent text-white"
-            : "border-border bg-background/90 text-foreground backdrop-blur-md"
+            : atTop
+              ? "border-transparent bg-transparent text-foreground"
+              : "border-border bg-background/90 text-foreground backdrop-blur-md"
         }`}
       >
-        <div className="mx-auto flex h-[var(--nav-h)] max-w-[1320px] items-center justify-between gap-6 px-[var(--gutter)]">
-          <Link href={localePath("/", locale)} className="relative z-10 shrink-0" aria-label="Range Media">
+        <div
+          className={`mx-auto flex max-w-[1320px] items-center justify-between gap-6 px-[var(--gutter)] transition-[height] duration-500 ease-brand ${
+            scrolled ? "h-[var(--nav-h)]" : "h-[var(--nav-h-top)]"
+          }`}
+        >
+          <Link
+            href={localePath("/", locale)}
+            aria-label="Range Media"
+            data-nav-logo
+            className={`relative z-10 shrink-0 origin-center transition-[transform,opacity] duration-500 ease-brand xl:order-2 ${
+              scrolled ? "xl:scale-[0.6875]" : "xl:scale-100"
+            }`}
+          >
             <span className={overHero ? "hidden" : "block"}>{logo}</span>
             <span className={overHero ? "block" : "hidden"}>{logoWhite}</span>
           </Link>
 
-          <nav aria-label={t(ui.menu, locale)} className="hidden lg:block">
-            <ul className="flex items-center gap-8">
+          <nav aria-label={t(ui.menu, locale)} className="hidden xl:order-1 xl:block xl:flex-1">
+            <ul className="flex items-center gap-7">
               {mainNav.map((item) => {
                 const active = isActive(item.href);
                 return (
@@ -80,7 +96,7 @@ export function Navbar({ locale, logo, logoWhite }: Props) {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-1 md:gap-2">
+          <div className="flex items-center gap-1 md:gap-2 xl:order-3 xl:flex-1 xl:justify-end">
             <a href={contact.phone.href} aria-label={t(ui.call, locale)} className={`${iconBtn} hidden sm:grid`}>
               <Phone width={18} height={18} />
             </a>
@@ -105,7 +121,7 @@ export function Navbar({ locale, logo, logoWhite }: Props) {
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-controls="mobile-menu"
-              className="relative ml-1 grid size-10 place-items-center lg:hidden"
+              className="relative ml-1 grid size-10 place-items-center xl:hidden"
             >
               <span className="sr-only">{t(open ? ui.close : ui.menu, locale)}</span>
               <span aria-hidden className="relative block h-3 w-6">

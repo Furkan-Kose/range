@@ -70,6 +70,7 @@ export function VideoGallery({ videos, logo, labels }: Props) {
               type="button"
               onClick={() => setIndex(i)}
               aria-label={`${labels.play}: ${v.title}`}
+              data-tilt
               className="group relative block aspect-video w-full overflow-hidden rounded-[20px] border border-border bg-surface-2"
             >
               {v.thumb ? (

@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/referenc
     locale,
     path: `/references/${slug}`,
     title: ref.name,
-    description: desc ? t(desc, locale).slice(0, 160) : `${ref.name} — ${t(ref.category, locale)}`,
+    description: desc ? t(desc, locale).slice(0, 160) : `${ref.name} — ${t(referencesSection.metaFallback, locale)}`,
     image: ref.coverImage,
   });
 }
@@ -50,7 +50,6 @@ export default async function ReferencePage({ params }: PageProps<"/[locale]/ref
       <PageHero
         locale={locale}
         crumbs={[{ label: t(referencesSection.pageTitle, locale), href: "/references" }, { label: ref.name }]}
-        eyebrow={t(ref.category, locale)}
         title={ref.name}
       />
 

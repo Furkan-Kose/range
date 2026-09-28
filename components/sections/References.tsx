@@ -11,14 +11,28 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Marquee } from "@/components/ui/Marquee";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
+import { Camera3D, CameraLayer } from "@/components/motion/Camera3D";
 
-/** Logo kartı: açık zeminde gri logo; üzerine gelince kart koyulaşır, logo beyaz görünür. */
-export function LogoCard({ reference, locale, className = "" }: { reference: Reference; locale: Locale; className?: string }) {
+/** Logo kartı: açık zeminde gri logo; üzerine gelince marka yeşili cam (glassmorphism) kart, logo beyaz görünür. */
+export function LogoCard({
+  reference,
+  locale,
+  className = "",
+  tabIndex,
+}: {
+  reference: Reference;
+  locale: Locale;
+  className?: string;
+  /** Marquee döngü kopyasında -1 (klavyeden gizli, fareyle tıklanabilir) */
+  tabIndex?: number;
+}) {
   return (
     <Link
       href={localePath(`/references/${reference.slug}`, locale)}
       aria-label={reference.name}
-      className={`group/logo relative grid h-[110px] w-[230px] shrink-0 place-items-center rounded-[20px] border border-border bg-background transition-colors duration-300 hover:border-[#101110] hover:bg-[#101110] ${className}`}
+      tabIndex={tabIndex}
+      data-tilt
+      className={`group/logo relative grid h-[110px] w-[230px] shrink-0 place-items-center overflow-hidden rounded-[20px] border border-border bg-background transition-[background-color,border-color] duration-300 hover:z-10 hover:border-white/40 hover:bg-brand/75 hover:backdrop-blur-xl ${className}`}
     >
       <span className="relative h-12 w-[58%]">
         <Image
@@ -34,17 +48,39 @@ export function LogoCard({ reference, locale, className = "" }: { reference: Ref
 }
 
 /** Referans önizlemesi: kapak görseli varsa o, yoksa logonun koyu zemin üzerindeki hali. */
-export function ReferencePreview({ reference, sizes = "400px" }: { reference: Reference; sizes?: string }) {
+export function ReferencePreview({
+  reference,
+  sizes = "400px",
+}: {
+  reference: Reference;
+  sizes?: string;
+}) {
   if (mediaExists(reference.coverImage)) {
-    return <Image src={reference.coverImage!} alt="" fill sizes={sizes} className="object-cover" />;
+    return (
+      <Image
+        src={reference.coverImage!}
+        alt=""
+        fill
+        sizes={sizes}
+        className="object-cover"
+      />
+    );
   }
   return (
     <div
       className="absolute inset-0 grid place-items-center"
-      style={{ background: "radial-gradient(120% 90% at 30% 20%, #23302b, #0d110f)" }}
+      style={{
+        background: "radial-gradient(120% 90% at 30% 20%, #23302b, #0d110f)",
+      }}
     >
       <div className="relative h-1/3 w-1/2">
-        <Image src={reference.logo} alt="" fill sizes="220px" className="object-contain" />
+        <Image
+          src={reference.logo}
+          alt=""
+          fill
+          sizes="220px"
+          className="object-contain"
+        />
       </div>
     </div>
   );
@@ -63,31 +99,61 @@ export function References({ locale }: { locale: Locale }) {
       className="overflow-hidden"
       divider={{ shape: "diagonal", to: "default" }}
     >
-      <Container>
-        <SectionHeading
-          id="references-title"
-          eyebrow={t(referencesSection.eyebrow, locale)}
-          title={t(referencesSection.title, locale)}
-          action={
-            <Button href={localePath("/references", locale)} variant="outline">
-              {t(ui.allReferences, locale)}
-            </Button>
-          }
-        />
-      </Container>
+      <Camera3D>
+        <Container>
+          <SectionHeading
+            id="references-title"
+            eyebrow={t(referencesSection.eyebrow, locale)}
+            title={t(referencesSection.title, locale)}
+            action={
+              <Button
+                href={localePath("/references", locale)}
+                variant="outline"
+              >
+                {t(ui.allReferences, locale)}
+              </Button>
+            }
+          />
+        </Container>
 
-      <Reveal className="mt-12 space-y-4 md:mt-14">
-        <Marquee duration={60}>
-          {rowA.map((r) => (
-            <LogoCard key={r.slug} reference={r} locale={locale} className="mr-4" />
+        {/* py-8: hover'da büyüyen kart ve gölgesi şeridin kenarında kesilmesin (-my ile toplam boşluk aynı kalır) */}
+        <Reveal className="mt-4 -mb-8 md:mt-6">
+          {[
+            { items: rowA, duration: 60, reverse: false },
+            { items: rowB, duration: 70, reverse: true },
+          ].map((row, i) => (
+            <CameraLayer
+              key={i}
+              depth={1 + i}
+              className={i > 0 ? "-mt-12" : ""}
+            >
+              <Marquee
+                duration={row.duration}
+                reverse={row.reverse}
+                className="py-8"
+                clone={row.items.map((r) => (
+                  <LogoCard
+                    key={r.slug}
+                    reference={r}
+                    locale={locale}
+                    className="mr-4"
+                    tabIndex={-1}
+                  />
+                ))}
+              >
+                {row.items.map((r) => (
+                  <LogoCard
+                    key={r.slug}
+                    reference={r}
+                    locale={locale}
+                    className="mr-4"
+                  />
+                ))}
+              </Marquee>
+            </CameraLayer>
           ))}
-        </Marquee>
-        <Marquee duration={70} reverse>
-          {rowB.map((r) => (
-            <LogoCard key={r.slug} reference={r} locale={locale} className="mr-4" />
-          ))}
-        </Marquee>
-      </Reveal>
+        </Reveal>
+      </Camera3D>
     </Section>
   );
 }

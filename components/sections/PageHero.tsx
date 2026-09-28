@@ -40,7 +40,7 @@ export function PageHero({ locale, title, eyebrow, description, crumbs, children
   };
 
   return (
-    <header className="relative bg-surface pt-[calc(var(--nav-h)+3rem)] pb-[calc(3rem+clamp(32px,5vw,80px))] md:pt-[calc(var(--nav-h)+4.5rem)] md:pb-[calc(4.5rem+clamp(32px,5vw,80px))]">
+    <header className="relative bg-surface pt-[calc(var(--nav-h-top)+3rem)] pb-[calc(3rem+clamp(32px,5vw,80px))] md:pt-[calc(var(--nav-h-top)+4.5rem)] md:pb-[calc(4.5rem+clamp(32px,5vw,80px))]">
       <JsonLd data={breadcrumbJsonLd} />
       <Container>
         <Reveal className="max-w-3xl">

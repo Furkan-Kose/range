@@ -4,18 +4,16 @@
 // Başlıklarda: *kelime* → italik serif vurgu, \n → satır sonu.
 
 export const hero = {
-  eyebrow: { tr: "Yaratıcı Medya Ajansı", en: "Creative Media Agency" },
-  // TODO: gözden geçir — içerik dosyalarında hero metni yoktu, hizmet metinlerinden türetildi.
   title: {
-    tr: "Fikirden görüntüye,\nkameradan *yapay zekâya.*",
-    en: "From idea to image,\nfrom camera to *AI.*",
+    tr: "Fikri geliştirir,\n*hayata geçiririz.*",
+    en: "We develop the idea,\n*and bring it to life.*",
   },
   description: {
-    tr: "Prodüksiyon, AI prodüksiyon ve sosyal medya yönetimini tek bir yaratıcı yapı içinde yönetiyoruz.",
-    en: "We manage production, AI production and social media under one creative structure.",
+    tr: "Markalar için reklam filmleri, fotoğraflar ve dijital içerikler üretiyoruz. Prodüksiyon, yapay zekâ ve sosyal medya çalışmalarını fikir aşamasından yayına kadar birlikte yürütüyoruz.",
+    en: "We produce commercials, photography and digital content for brands. We run production, AI and social media work together — from the idea stage all the way to publishing.",
   },
   video: "/videos/hero/hero.mp4",
-  // TODO: Videonun ilk karesinden bir poster görseli ekle (hızlı açılış + LCP için önemli)
+  // Poster: videonun 1. saniyesinden alındı (hızlı açılış + LCP) — istersen değiştir
   poster: "/images/hero-poster.jpg",
   // Video üzerindeki küçük metadata etiketleri
   tags: [
@@ -80,7 +78,7 @@ export const rngSport = {
   video: {
     desktop: "/videos/rng-sport/web.mp4",
     mobile: "/videos/rng-sport/mobile.mp4",
-    poster: "", // TODO: poster görseli
+    poster: "/images/rng-sport-poster.jpg", // videonun 1. saniyesinden alındı — istersen değiştir
   },
   features: [
     {
@@ -121,15 +119,14 @@ export const instagram = {
     en: "From the set, the stage, the edit.",
   },
   cta: { tr: "Instagram'da Takip Et", en: "Follow on Instagram" },
-  // TODO: Instagram görsellerini public/images/instagram/ altına ekle (dikey 4:5 önerilir)
-  images: [
-    "/images/instagram/1.jpg",
-    "/images/instagram/2.jpg",
-    "/images/instagram/3.jpg",
-    "/images/instagram/4.jpg",
-    "/images/instagram/5.jpg",
-    "/images/instagram/6.jpg",
-    "/images/instagram/7.jpg",
+  // @range.media'nın son 5 gönderisi (2026-09-27'de elle çekildi — otomatik güncellenmez).
+  // Güncellemek için: görseli public/images/instagram/ altına koy, gönderi linkini yaz. Sıra = sitedeki sıra.
+  posts: [
+    { image: "/images/instagram/1.jpg", href: "https://www.instagram.com/reel/DdCKuAbOTXu/" },
+    { image: "/images/instagram/2.jpg", href: "https://www.instagram.com/reel/DcbuTncoFq5/" },
+    { image: "/images/instagram/3.jpg", href: "https://www.instagram.com/reel/DcMPApaIZmt/" },
+    { image: "/images/instagram/4.jpg", href: "https://www.instagram.com/reel/DbtAp3nqLis/" },
+    { image: "/images/instagram/5.jpg", href: "https://www.instagram.com/p/DbYWZoBAA7P/" },
   ],
 };
 
