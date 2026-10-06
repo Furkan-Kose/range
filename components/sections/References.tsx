@@ -32,17 +32,24 @@ export function LogoCard({
       aria-label={reference.name}
       tabIndex={tabIndex}
       data-tilt
-      className={`group/logo relative grid h-[110px] w-[230px] shrink-0 place-items-center overflow-hidden rounded-[20px] border border-border bg-background transition-[background-color,border-color] duration-300 hover:z-10 hover:border-white/40 hover:bg-brand/75 hover:backdrop-blur-xl ${className}`}
+      className={`group/logo relative grid h-20 w-40 shrink-0 md:h-[110px] md:w-[230px] place-items-center overflow-hidden rounded-[20px] border border-border bg-background transition-[background-color,border-color] duration-300 hover:z-10 hover:border-white/40 hover:bg-brand/75 hover:backdrop-blur-xl ${className}`}
     >
-      <span className="relative h-12 w-[58%]">
-        <Image
-          src={reference.logo}
-          alt=""
-          fill
-          sizes="140px"
-          className="logo-mono object-contain opacity-65 transition-[filter,opacity] duration-300 group-hover/logo:opacity-100 group-hover/logo:[filter:none]"
-        />
-      </span>
+      {mediaExists(reference.logo) ? (
+        <span className="relative h-9 w-[58%] md:h-12">
+          <Image
+            src={reference.logo}
+            alt=""
+            fill
+            sizes="140px"
+            className="logo-mono object-contain opacity-65 transition-[filter,opacity] duration-300 group-hover/logo:opacity-100 group-hover/logo:[filter:none]"
+          />
+        </span>
+      ) : (
+        // Logo dosyası yoksa marka adı (logo eklenince otomatik değişir)
+        <span className="text-h4 px-3 text-center text-foreground/55 transition-colors duration-300 group-hover/logo:text-white">
+          {reference.name}
+        </span>
+      )}
     </Link>
   );
 }
@@ -73,15 +80,19 @@ export function ReferencePreview({
         background: "radial-gradient(120% 90% at 30% 20%, #23302b, #0d110f)",
       }}
     >
-      <div className="relative h-1/3 w-1/2">
-        <Image
-          src={reference.logo}
-          alt=""
-          fill
-          sizes="220px"
-          className="object-contain"
-        />
-      </div>
+      {mediaExists(reference.logo) ? (
+        <div className="relative h-1/3 w-1/2">
+          <Image
+            src={reference.logo}
+            alt=""
+            fill
+            sizes="220px"
+            className="object-contain"
+          />
+        </div>
+      ) : (
+        <span className="text-h3 px-6 text-center text-white">{reference.name}</span>
+      )}
     </div>
   );
 }
@@ -119,8 +130,9 @@ export function References({ locale }: { locale: Locale }) {
         {/* py-8: hover'da büyüyen kart ve gölgesi şeridin kenarında kesilmesin (-my ile toplam boşluk aynı kalır) */}
         <Reveal className="mt-4 -mb-8 md:mt-6">
           {[
-            { items: rowA, duration: 60, reverse: false },
-            { items: rowB, duration: 70, reverse: true },
+            // hız: piksel/saniye — mobil / masaüstü (iki şerit hafif farklı hızda, ters yönde)
+            { items: rowA, speed: 56, desktopSpeed: 74, reverse: false },
+            { items: rowB, speed: 48, desktopSpeed: 64, reverse: true },
           ].map((row, i) => (
             <CameraLayer
               key={i}
@@ -128,7 +140,8 @@ export function References({ locale }: { locale: Locale }) {
               className={i > 0 ? "-mt-12" : ""}
             >
               <Marquee
-                duration={row.duration}
+                speed={row.speed}
+                desktopSpeed={row.desktopSpeed}
                 reverse={row.reverse}
                 className="py-8"
                 clone={row.items.map((r) => (
@@ -136,7 +149,7 @@ export function References({ locale }: { locale: Locale }) {
                     key={r.slug}
                     reference={r}
                     locale={locale}
-                    className="mr-4"
+                    className="mr-3 md:mr-4"
                     tabIndex={-1}
                   />
                 ))}
@@ -146,7 +159,7 @@ export function References({ locale }: { locale: Locale }) {
                     key={r.slug}
                     reference={r}
                     locale={locale}
-                    className="mr-4"
+                    className="mr-3 md:mr-4"
                   />
                 ))}
               </Marquee>

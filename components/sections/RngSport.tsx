@@ -47,7 +47,7 @@ export function RngSport({ locale }: { locale: Locale }) {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(90deg, rgb(11 12 11 / 0.92) 0%, rgb(11 12 11 / 0.7) 45%, rgb(11 12 11 / 0.35) 100%), linear-gradient(0deg, rgb(11 12 11 / 0.85) 0%, rgb(11 12 11 / 0) 45%)",
+            "linear-gradient(90deg, rgb(11 12 11 / 0.92) 0%, rgb(11 12 11 / 0.7) 45%, rgb(11 12 11 / 0.35) 100%), linear-gradient(0deg, rgb(11 12 11 / 0.6) 0%, rgb(11 12 11 / 0) 45%)",
         }}
       />
       <div
@@ -62,7 +62,7 @@ export function RngSport({ locale }: { locale: Locale }) {
 
       <Container className="relative z-[2]">
         <Camera3D>
-          <Reveal className="max-w-xl py-6 md:py-12">
+          <Reveal className="max-w-xl">
             <Eyebrow className="!text-[#2fd3a5]">
               {t(rngSport.eyebrow, locale)}
             </Eyebrow>
@@ -77,7 +77,7 @@ export function RngSport({ locale }: { locale: Locale }) {
                 />
               ) : (
                 // TODO: RNG Sport logosu eklenince content/home.ts → rngSport.logo
-                <p className="font-display text-[1.75rem] font-bold tracking-tight">
+                <p className="text-h3 !font-bold">
                   RNG <span className="text-[#2fd3a5]">SPORT</span>
                 </p>
               )}
@@ -94,9 +94,9 @@ export function RngSport({ locale }: { locale: Locale }) {
           </Reveal>
 
           <CameraLayer depth={2}>
-            <ol className="mt-12 grid gap-px overflow-hidden rounded-[20px] border border-white/10 bg-white/10 backdrop-blur-sm sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+            <ol className="mt-12 grid gap-px overflow-hidden rounded-[20px] border border-white/10 bg-white/10 backdrop-blur-[2px] sm:grid-cols-2 md:mt-14 lg:grid-cols-4">
               {rngSport.features.map((f, i) => (
-                <li key={i} className="bg-[#0b0c0b]/70 p-6">
+                <li key={i} className="bg-[#0b0c0b]/40 p-5 md:p-6">
                   <Reveal delay={i * 0.06}>
                     <span className="text-small font-semibold text-[#2fd3a5]">
                       {String(i + 1).padStart(2, "0")}

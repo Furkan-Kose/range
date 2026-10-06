@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "i.ytimg.com" },
     ],
   },
-  allowedDevOrigins: ['192.168.68.105'],
+  allowedDevOrigins: ['192.168.68.106'],
 };
 
 export default nextConfig;

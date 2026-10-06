@@ -69,39 +69,6 @@ export const references: Reference[] = [
     ],
   },
   { 
-    slug: "atlantis-dogal-kaynak-suyu", 
-    name: "Atlantis Doğal Kaynak Suyu", 
-    category: { tr: "Marka İletişimi", en: "Brand Communication" },
-    description: {
-      tr: "Range Media olarak, Atlantis Su için sosyal medya tasarımları hazırladık. Bu projede, markanın doğal kaynak suyunu ve premium hissiyatını öne çıkaran doğa temalı görseller kullandık.Tasarımlarımız, ürünün kalitesini ve saflığını vurguladı. Atlantis Su'nun şişe tasarımları ve logosunu belirgin şekilde yerleştirerek marka bilinirliğini artırmayı hedefledik. Atlantis Su, bu projeyle geniş bir kitleye ulaştı. Range Media olarak, başarılı bir tanıtım kampanyası yönetmenin gururunu yaşıyoruz.",
-      en: "As Range Media, we designed social media visuals for Atlantis Water. In this project, we used nature-themed visuals that emphasized the brand’s natural spring water and premium feel. Our designs highlighted the product’s quality and purity. By prominently featuring Atlantis Water’s bottle designs and logo, we aimed to boost brand awareness. With this project, Atlantis Water reached a wide audience. As Range Media, we take pride in managing a successful promotional campaign.",
-    },
-  },
-  { 
-    slug: "aydinoglu-yapi", 
-    name: "Aydınoğlu Yapı", 
-    category: { tr: "Kurumsal", en: "Corporate" },
-    description: {
-      tr: "Range Media olarak, köklü yapı tecrübesiyle öne çıkan Aydınoğlu Yapı için markanın kurumsal duruşunu yansıtan sosyal medya içerikleri ürettik. Projelerin estetik, güven ve yaşam kalitesi vurgusunu öne çıkaran içerik kurguları ile dijital mecralarda daha tutarlı ve güçlü bir iletişim dili oluşturmayı hedefledik.",
-      en: "As Range Media, we produced social media content for Aydınoğlu Yapı, a company distinguished by its long-standing expertise in construction. With content concepts that emphasize the aesthetics, trust, and quality of life reflected in their projects, we aimed to build a more consistent and impactful communication style across digital platforms.",
-    },
-  },
-  { 
-    slug: "bowax", 
-    name: "Bowax", 
-    category: { tr: "Ürün · İçerik", en: "Product · Content" },
-    description: {
-      tr: "Range Media olarak, Bowax için özel sosyal medya tasarımları ve videolar hazırladık. PPF kaplama ve cam filmi gibi ürünlerini öne çıkaran estetik ve dikkat çekici tasarımlar ve videolar hazırladık. Ürünlerin araçlara sunduğu koruma ve estetik katkıları görsel olarak anlattık. Renk ve düzen seçimlerimiz Bowax'ın kimliğine uygun olarak yapıldı. Bu işbirliğinde Bowax, İstanbul'da geniş bir kitleye ulaşarak marka bilinirliğini artırdı. Range Media olarak, Bowax'ın tanıtımında başarılı bir kampanya yürütmekten gurur duyuyoruz.",
-      en: "As Range Media, we created custom social media designs and videos for Bowax. We prepared aesthetic and attention-grabbing visuals that showcased products like PPF coating and window film. Our content visually demonstrated the protection and aesthetic benefits these products provide for vehicles. The color schemes and layouts were carefully chosen to align with Bowax’s brand identity. Through this collaboration, Bowax reached a large audience in Istanbul, increasing its brand recognition. As Range Media, we take pride in executing a successful promotional campaign for Bowax.",
-    },
-    videos: [
-      "https://vimeo.com/969286862",
-      "https://vimeo.com/969286389",
-      "https://vimeo.com/969284694",
-      "https://vimeo.com/969286677",
-    ],
-  },
-  { 
     slug: "cahide-plazzo", 
     name: "Cahide Plazzo", 
     category: { tr: "Etkinlik", en: "Event" },
@@ -111,58 +78,6 @@ export const references: Reference[] = [
     },
     videos: [
       "https://vimeo.com/969270085"
-    ],
-  },
-  { 
-    slug: "chez-bebek", 
-    name: "Chez Bebek", 
-    category: { tr: "Yeme İçme", en: "Hospitality" },
-    description: {
-      tr: "Range Media olarak, Chez Bebek gece kulübü ve restoranı için dikkat çekici Instagram Reels videoları hazırladık. Açılış gecesi ve etkinlikleri kapsayan videolarımızda, mekanın şıklığını ve eğlenceli atmosferini öne çıkardık. Dinamik ve estetik görsellerle Chez Bebek'in benzersiz deneyimini yansıttık. Bu videolar sayesinde milyonlarca izlenme elde edildi ve sosyal medya etkileşimleri büyük ölçüde arttı. Range Media olarak, bu başarılı tanıtım kampanyasını yönetmenin gururunu yaşıyoruz.",
-      en: "As Range Media, we created eye-catching Instagram Reels videos for Chez Bebek nightclub and restaurant. Our videos, covering the grand opening and events, highlighted the venue’s elegance and lively atmosphere. With dynamic and aesthetic visuals, we captured the unique experience of Chez Bebek. These videos achieved millions of views and significantly boosted social media engagement. As Range Media, we take pride in managing this successful promotional campaign.",
-    },
-    videos: [
-      "https://vimeo.com/980465286",
-      "https://vimeo.com/980476364",
-      "https://vimeo.com/980476911",
-    ],
-  },
-  { 
-    slug: "cleanxcar", 
-    name: "CleanXCar", 
-    category: { tr: "Sosyal Medya", en: "Social Media" },
-    description: {
-      tr: "Range Media olarak, CleanXCar için profesyonel video edit hizmetleri sunduk. Detaylı araç bakımı alanında uzmanlaşmış bu Alman şirketi için hazırladığımız videolar, CleanXCar'ın üzerinde çalıştığı arabaları ve hizmetlerini ön plana çıkardı. Videolarımız sayesinde, CleanXCar geniş kitlelere ulaşarak marka bilinirliğini ve müşteri tabanını önemli ölçüde artırdı. Range Media olarak, bu başarılı tanıtım kampanyasını yönetmenin gururunu yaşıyoruz.",
-      en: "As Range Media, we provided professional video editing services for CleanXCar. For this German company specializing in detailed car care, our videos highlighted the vehicles and services they worked on. Thanks to our videos, CleanXCar reached a wide audience, significantly increasing brand awareness and customer base. As Range Media, we take pride in managing this successful promotional campaign.",
-    },
-    videos: [
-      "https://vimeo.com/980462062",
-      "https://vimeo.com/980460881",
-      "https://vimeo.com/980461148",
-    ],
-  },
-  { 
-    slug: "concentit", 
-    name: "Concentit", 
-    category: { tr: "Teknoloji", en: "Technology" },
-    description: {
-      tr: "Range Media olarak, SAP danışmanlığı alanında uzman ConcentIT için kurumsal kimliğe uygun sosyal medya içerikleri hazırladık. Teknik uzmanlığı anlaşılır hale getiren, hizmetleri öne çıkaran içerik dili ve planlamasıyla markanın dijital iletişimini daha güçlü ve tutarlı bir yapıya kavuşturmayı hedefledik. Stratejik içerik yaklaşımımızla ConcentIT’nin sektör otoritesini destekleyen, güven veren bir dijital görünüm oluşturduk.",
-      en: "As Range Media, we created corporate identity–aligned social media content for ConcentIT, a company specialized in SAP consultancy. With a content language and planning approach that makes technical expertise easy to understand and highlights their services, we aimed to build a stronger and more consistent digital communication structure for the brand. Through our strategic content approach, we developed a trustworthy digital presence that reinforces ConcentIT’s authority in the industry.",
-    },
-    videos: [
-      "https://vimeo.com/1141880021",
-    ],
-  },
-  { 
-    slug: "the-dark-world-production", 
-    name: "The Dark World Production", 
-    category: { tr: "Eğlence", en: "Entertainment" },
-    description: {
-      tr: "The Dark World Rroduction yapım şirketi ile Serdar Ortaç 'İlaç, Kim Bulmuş Aşkı', Ramiz Ozbay 'Hollywood Efsaneleri 'Kara Şimşek', Belma Şahin 'Dua', Aziz Yuldashev 'Konser Çekimleri' gibi ünlü sanatçıların kliplerinin kapak fotoğraflarını ve backstage çekimlerini yaptık.",
-      en: "In collaboration with The Dark World Production, we captured cover photos and backstage footage for music videos of famous artists, including Serdar Ortaç’s 'İlaç, Kim Bulmuş Aşkı,' Ramiz Ozbay’s 'Hollywood Efsaneleri: Kara Şimşek,' Belma Şahin’s 'Dua,' and Aziz Yuldashev’s concert recordings.",
-    },
-    videos: [
-      "https://vimeo.com/965724523",
     ],
   },
   { 
@@ -183,18 +98,6 @@ export const references: Reference[] = [
     },
     videos: [
       "https://vimeo.com/1037361676",
-    ],
-  },
-  { 
-    slug: "oncu-kale", 
-    name: "Öncü Kale", 
-    category: { tr: "Marka İletişimi", en: "Brand Communication" },
-    description: {
-      tr: "Range Media olarak, banyo–mutfak ve yapı çözümleri alanında hizmet veren Öncü Kale için ürün ve showroom odaklı sosyal medya içerikleri ve tasarımlar ürettik. Marka kimliğine uygun görsel kurgu ve içerik planlamasıyla, hizmet ve ürün çeşitliliğini anlaşılır ve dikkat çekici bir iletişime dönüştürmeyi hedefledik. Yaptığımız çalışmalarla Öncü Kale’nin dijitalde daha güçlü, düzenli ve güven veren bir görünürlük kazanmasına destek olduk.",
-      en: "As Range Media, we produced product- and showroom-focused social media content and designs for Öncü Kale, a company providing solutions in bathroom–kitchen and building systems. With a visual concept and content planning aligned with the brand identity, we aimed to transform their diverse services and products into clear and attention-grabbing communication. Through our work, we supported Öncü Kale in achieving a stronger, more consistent, and trustworthy digital presence.",
-    },
-    videos: [
-      "https://vimeo.com/1141883101",
     ],
   },
   { 

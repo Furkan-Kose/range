@@ -4,6 +4,7 @@ import { getReference, references, referencesSection } from "@/content/reference
 import { ui } from "@/content/navigation";
 import { locales, t, type Locale } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
+import { mediaExists } from "@/lib/media";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Media } from "@/components/ui/Media";
@@ -51,6 +52,7 @@ export default async function ReferencePage({ params }: PageProps<"/[locale]/ref
         locale={locale}
         crumbs={[{ label: t(referencesSection.pageTitle, locale), href: "/references" }, { label: ref.name }]}
         title={ref.name}
+        description={ref.tagline ? t(ref.tagline, locale) : undefined}
       />
 
       {/* AÇIKLAMA */}
@@ -75,7 +77,7 @@ export default async function ReferencePage({ params }: PageProps<"/[locale]/ref
               <div className="mt-8 md:mt-10">
                 <VideoGallery
                   videos={videoInfos}
-                  logo={ref.logo}
+                  logo={mediaExists(ref.logo) ? ref.logo : undefined}
                   labels={{
                     play: t(ui.playVideo, locale),
                     close: t(ui.close, locale),

@@ -86,7 +86,7 @@ export function Testimonials({ locale }: { locale: Locale }) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.45, ease: EASE }}
-                      className="font-display text-[1.125rem] leading-[1.6] tracking-[-0.01em] md:text-[1.25rem] lg:text-[1.375rem]"
+                      className="text-quote"
                     >
                       {t(item.quote, locale)}
                     </motion.blockquote>
@@ -99,7 +99,7 @@ export function Testimonials({ locale }: { locale: Locale }) {
                 </div>
 
                 {/* Küçük fotoğraflar */}
-                <ul className="mt-8 flex flex-wrap gap-2.5">
+                <ul className="mt-8 grid grid-cols-6 gap-2 md:flex md:flex-wrap md:gap-2.5">
                   {testimonials.map((p, i) => (
                     <li key={p.name}>
                       <button
@@ -107,7 +107,7 @@ export function Testimonials({ locale }: { locale: Locale }) {
                         onClick={() => setIndex(i)}
                         aria-label={`${p.name} — ${p.company}`}
                         aria-current={i === index}
-                        className={`relative block size-14 overflow-hidden rounded-xl transition-[opacity,filter] duration-300 md:size-16 ${
+                        className={`relative block aspect-square w-full overflow-hidden rounded-xl transition-[opacity,filter] duration-300 md:size-16 ${
                           i === index
                             ? "opacity-100 outline-2 outline-offset-3 outline-brand"
                             : "opacity-45 grayscale hover:opacity-80"

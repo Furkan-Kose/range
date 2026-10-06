@@ -11,7 +11,7 @@ import { SectionDivider } from "@/components/ui/SectionDivider";
 
 /**
  * Hero: video navbar dahil tüm alanı kaplar. Solda başlık (video üstünde, beyaz),
- * altta sayfa zeminine yumuşak geçiş, ortada "Keşfet" işareti.
+ * altta sayfa zeminine yumuşak geçiş.
  */
 export function Hero({ locale }: { locale: Locale }) {
   return (
@@ -44,10 +44,18 @@ export function Hero({ locale }: { locale: Locale }) {
         <div className="mx-auto max-w-3xl">
           <TextReveal id="hero-title" as="h1" immediate delay={0.25} text={t(hero.title, locale)} className="text-display" />
           <Reveal delay={0.55} afterIntro>
-            <p className="text-body mx-auto mt-6 max-w-xl text-[1.125rem] text-white/85">{t(hero.description, locale)}</p>
-            <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <Button href={localePath("/references", locale)}>{t(ui.viewProjects, locale)}</Button>
-              <Button href={localePath("/contact", locale)} variant="ghost" icon={false}>
+            <p className="text-lead mx-auto mt-6 max-w-xl text-white/85">{t(hero.description, locale)}</p>
+            {/* Mobilde iki buton eşit genişlikte yan yana (simetrik), sm+ içerik genişliğinde ortalı */}
+            <div className="mx-auto mt-9 grid max-w-sm grid-cols-2 gap-3 sm:flex sm:max-w-none sm:flex-wrap sm:justify-center">
+              <Button href={localePath("/references", locale)} className="justify-center whitespace-nowrap max-sm:!px-3 max-sm:[&>[aria-hidden]]:hidden">
+                {t(ui.viewProjects, locale)}
+              </Button>
+              <Button
+                href={localePath("/contact", locale)}
+                variant="ghost"
+                icon={false}
+                className="justify-center whitespace-nowrap max-sm:!px-3"
+              >
                 {t(ui.contactCta, locale)}
               </Button>
             </div>
@@ -55,14 +63,6 @@ export function Hero({ locale }: { locale: Locale }) {
         </div>
       </Container>
 
-      {/* Keşfet işareti */}
-      <a
-        href="#services"
-        className="text-label absolute bottom-[calc(var(--wave-lift)+clamp(32px,5vw,80px)+0.5rem)] left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 md:flex !tracking-[0.14em] text-white/80 transition-colors hover:text-white"
-      >
-        {t(ui.explore, locale)}
-        <span aria-hidden className="scroll-cue block h-10 w-px bg-brand" />
-      </a>
     </section>
   );
 }

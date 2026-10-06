@@ -43,7 +43,6 @@ export const ui = {
     tr: "Prodüksiyon, AI prodüksiyon ve sosyal medya yönetimi.",
     en: "Production, AI production and social media management.",
   },
-  explore: { tr: "Keşfet", en: "Explore" },
   home: { tr: "Ana Sayfa", en: "Home" },
   notFoundTitle: { tr: "Aradığınız sayfa bulunamadı.", en: "We couldn't find that page." },
   backHome: { tr: "Ana sayfaya dön", en: "Back to home" },

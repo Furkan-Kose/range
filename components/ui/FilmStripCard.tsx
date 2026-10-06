@@ -13,12 +13,13 @@ export function FilmStripCard({ code, title, children, className = "", as: Tag =
   return (
     <article data-tilt className={`relative flex flex-col overflow-hidden rounded-lg bg-[var(--paper)] text-[var(--paper-foreground)] shadow-[var(--shadow)] ${className}`}>
       <div className="film-perf" aria-hidden />
-      <div className="flex-1 px-8 pt-9 pb-10">
+      {/* Boşluklar satır aralığı payıyla birlikte gözle eşit; eşit yükseklikte fazla alan üst-alta eşit dağılır (justify-center) */}
+      <div className="flex flex-1 flex-col justify-center px-6 pt-7 pb-6 md:px-8 md:pt-10 md:pb-9">
         {code && <p className="font-mono text-[0.8125rem] tracking-[0.2em] text-brand uppercase">Range Media {code}</p>}
-        <Tag className="text-h3 mt-3.5">
+        <Tag className={`text-h3 ${code ? "mt-3.5" : ""}`}>
           {title}
         </Tag>
-        {children && <div className="text-body mt-3.5 text-[var(--paper-muted)]">{children}</div>}
+        {children && <div className="text-body mt-2.5 text-[var(--paper-muted)] md:mt-3.5">{children}</div>}
       </div>
       <div className="film-perf" aria-hidden />
     </article>

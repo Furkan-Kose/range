@@ -114,28 +114,28 @@
 }
 @utility text-display {
   font-family: var(--font-display);
-  font-size: clamp(2.625rem, 1.5rem + 3.8vw, 4.375rem);
+  font-size: clamp(2.25rem, 1.25rem + 4.2vw, 4.375rem); /* 36 → 70 */
   line-height: 1.02;
   letter-spacing: -0.035em;
   font-weight: 600;
 }
 @utility text-h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 1.5rem + 2.6vw, 3.5rem);
+  font-size: clamp(2rem, 1.35rem + 2.8vw, 3.5rem); /* 32 → 56 */
   line-height: 1.05;
   letter-spacing: -0.032em;
   font-weight: 600;
 }
 @utility text-h2 {
   font-family: var(--font-display);
-  font-size: clamp(1.875rem, 1.35rem + 1.8vw, 2.875rem);
+  font-size: clamp(1.625rem, 1.2rem + 1.9vw, 2.875rem); /* 26 → 46 */
   line-height: 1.08;
   letter-spacing: -0.03em;
   font-weight: 600;
 }
 @utility text-h3 {
   font-family: var(--font-display);
-  font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.75rem); /* 20 → 28 */
   line-height: 1.2;
   letter-spacing: -0.02em;
   font-weight: 600;
@@ -143,14 +143,30 @@
 /* Kart başlıkları (blog, referans, ekip, RNG özellikleri) */
 @utility text-h4 {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: clamp(1.125rem, 1rem + 0.4vw, 1.25rem); /* 18 → 20 */
   line-height: 1.3;
   letter-spacing: -0.015em;
   font-weight: 600;
 }
 @utility text-body {
-  font-size: 1.0625rem;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem); /* 16 → 17 */
   line-height: 1.7;
+}
+/* Başlık altı giriş metni: ana sayfa hero + tüm iç sayfa hero açıklamaları */
+@utility text-lead {
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); /* 17 → 19 */
+  line-height: 1.65;
+}
+/* Alıntılar: yorum balonu + blog alıntısı */
+@utility text-quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem); /* 18 → 22 */
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+/* Büyük dekoratif numaralar (Hizmetler 01/02/03, .num-fill ile) */
+@utility text-num {
+  font-size: clamp(3.5rem, 2.5rem + 4vw, 6rem); /* 56 → 96 */
 }
 @utility text-small {
   font-size: 0.875rem;
@@ -236,65 +252,24 @@
    Delikler kart zemin rengiyle aynı olmalı → dark temada ayrı SVG
    ========================================================================= */
 .film-perf {
-  height: 26px;
+  height: 20px; /* mobil: daha ince bant, delikler orantılı */
   background-color: #121312;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='26'%3E%3Crect x='6' y='8.5' width='22' height='9' rx='4' fill='%23ffffff'/%3E%3C/svg%3E");
-  background-size: 34px 26px;
+  background-size: 26px 20px;
   background-repeat: repeat-x;
+}
+@media (min-width: 768px) {
+  .film-perf {
+    height: 26px;
+    background-size: 34px 26px;
+  }
 }
 [data-theme="dark"] .film-perf {
   background-color: #070807;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='26'%3E%3Crect x='6' y='8.5' width='22' height='9' rx='4' fill='%231a1d1a'/%3E%3C/svg%3E");
 }
 
-/* =========================================================================
-   MARQUEE (kayan logo şeritleri)
-   ========================================================================= */
-@keyframes marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-.marquee-track {
-  animation: marquee var(--marquee-duration, 60s) linear infinite;
-}
-.marquee-reverse {
-  animation-direction: reverse;
-}
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes scroll-cue {
-  0% {
-    transform: scaleY(0);
-    transform-origin: top;
-  }
-  50% {
-    transform: scaleY(1);
-    transform-origin: top;
-  }
-  51% {
-    transform-origin: bottom;
-  }
-  100% {
-    transform: scaleY(0);
-    transform-origin: bottom;
-  }
-}
-.scroll-cue {
-  animation: scroll-cue 2.4s var(--ease-brand) infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track,
-  .scroll-cue {
-    animation: none;
-  }
   html {
     scroll-behavior: auto;
   }
@@ -424,4 +399,12 @@ html[data-intro="run"] .fab {
     animation: none;
     opacity: 0;
   }
+}
+
+/* Logo şeridi sürüklenirken (components/ui/Marquee.tsx) */
+.marquee.is-dragging {
+  cursor: grabbing;
+}
+.marquee.is-dragging a {
+  pointer-events: none;
 }

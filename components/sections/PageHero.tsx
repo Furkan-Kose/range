@@ -69,7 +69,7 @@ export function PageHero({ locale, title, eyebrow, description, crumbs, children
           <h1 className={`text-display text-balance ${eyebrow ? "mt-3" : "mt-5"}`}>
             <RichText text={title} />
           </h1>
-          {description && <p className="text-body mt-5 max-w-xl text-muted">{description}</p>}
+          {description && <p className="text-lead mt-5 max-w-xl text-muted">{description}</p>}
           {children && <div className="mt-8">{children}</div>}
         </Reveal>
       </Container>

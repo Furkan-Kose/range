@@ -4,7 +4,8 @@ import { t, type Locale } from "@/lib/i18n";
 import { Phone, WhatsApp } from "@/components/ui/icons";
 
 /**
- * Sabit iletişim butonları — her sayfada sağ altta: üstte arama (beyaz), altta WhatsApp (yeşil, nabız halkası).
+ * Sabit iletişim butonları — her sayfada sağ altta: üstte arama (marka yeşili — beyaz/koyu zeminde kaybolmasın),
+ * altta WhatsApp (WhatsApp yeşili, nabız halkası). Masaüstünde biraz daha büyük (md+).
  * Masaüstünde üzerine gelince solda etiket kayarak çıkar. Açılış animasyonu sürerken gizli (globals.css → "SABİT İLETİŞİM").
  * Mobil menü (z-40) ve video lightbox'ı bunların üstünde kalır.
  */
@@ -17,9 +18,9 @@ export function FloatingContact({ locale }: { locale: Locale }) {
       <a
         href={contact.phone.href}
         aria-label={t(ui.call, locale)}
-        className="group relative grid size-12 place-items-center rounded-full border border-border bg-background text-brand shadow-[0_8px_24px_-8px_rgb(0_0_0/0.25)] transition-[scale,box-shadow] duration-300 ease-brand hover:scale-110 hover:shadow-[0_10px_28px_-8px_var(--brand)]"
+        className="group relative grid size-12 place-items-center rounded-full bg-brand text-white shadow-[0_8px_24px_-8px_var(--brand)] ring-2 ring-white/20 transition-[scale,box-shadow] duration-300 ease-brand hover:scale-110 hover:shadow-[0_12px_30px_-8px_var(--brand)] md:size-14"
       >
-        <Phone width={20} height={20} />
+        <Phone className="size-7 md:size-8" />
         <span className={label}>{t(ui.callNow, locale)}</span>
       </a>
       <a
@@ -27,9 +28,9 @@ export function FloatingContact({ locale }: { locale: Locale }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={t(ui.whatsapp, locale)}
-        className="group fab-pulse relative grid size-14 place-items-center rounded-full bg-[#25d366] text-white shadow-[0_10px_28px_-8px_rgb(37_211_102/0.7)] transition-[scale] duration-300 ease-brand hover:scale-110"
+        className="group fab-pulse relative grid size-14 place-items-center rounded-full bg-[#25d366] text-white shadow-[0_10px_28px_-8px_rgb(37_211_102/0.7)] transition-[scale] duration-300 ease-brand hover:scale-110 md:size-16"
       >
-        <WhatsApp width={26} height={26} />
+        <WhatsApp className="size-[34px] md:size-10" />
         <span className={label}>{t(ui.whatsappChat, locale)}</span>
       </a>
     </div>

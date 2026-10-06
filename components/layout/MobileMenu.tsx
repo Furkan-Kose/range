@@ -52,7 +52,7 @@ export function MobileMenu({ open, onClose, locale }: Props) {
                   <Link
                     href={localePath(item.href, locale)}
                     onClick={onClose}
-                    className="flex items-center justify-between py-5 font-display text-[1.75rem] font-semibold tracking-tight"
+                    className="text-h2 flex items-center justify-between py-5"
                   >
                     {t(item.label, locale)}
                     <span aria-hidden className="text-brand">

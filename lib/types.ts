@@ -29,7 +29,9 @@ export type Reference = {
   name: string;
   shortDescription?: Localized; // liste/önizleme metni (yoksa description kısaltılır)
   description?: Localized;
-  logo: string; // "/images/references/logos/<slug>.webp" (beyaz, transparan)
+  /** Proje/film başlığı — detay sayfasında başlığın altında görünür (opsiyonel) */
+  tagline?: Localized;
+  logo: string; // "/images/references/logos/<slug>.webp" (beyaz, transparan) — dosya yoksa marka adı yazı olarak görünür
   coverImage?: string; // "/images/references/covers/<slug>.jpg"
   gallery?: string[]; // "/images/references/<slug>/1.jpg" ...
   videos?: string[]; // Vimeo / YouTube linkleri veya "/videos/references/..." mp4

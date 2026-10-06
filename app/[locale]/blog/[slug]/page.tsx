@@ -82,7 +82,7 @@ export default async function BlogPostPage({ params }: PageProps<"/[locale]/blog
                   );
                 case "quote":
                   return (
-                    <blockquote key={i} className="my-10 border-l-2 border-brand pl-6 font-display text-[1.5rem] leading-snug">
+                    <blockquote key={i} className="text-quote my-10 border-l-2 border-brand pl-6">
                       {t(block.text, locale)}
                     </blockquote>
                   );

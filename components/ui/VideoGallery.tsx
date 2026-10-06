@@ -24,7 +24,7 @@ declare module "yet-another-react-lightbox" {
 
 type Props = {
   videos: (VideoInfo & { title: string })[];
-  logo: string; // kapak yoksa gösterilir
+  logo?: string; // kapak yoksa gösterilir (dosya yoksa verilmez)
   labels: { play: string; close: string; previous: string; next: string };
 };
 
@@ -81,13 +81,13 @@ export function VideoGallery({ videos, logo, labels }: Props) {
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   className="object-cover transition-transform duration-[1.2s] ease-brand group-hover:scale-[1.05]"
                 />
-              ) : (
+              ) : logo ? (
                 <span className="absolute inset-0 grid place-items-center">
                   <span className="relative h-1/3 w-1/2">
                     <Image src={logo} alt="" fill sizes="200px" className="logo-mono object-contain opacity-25" />
                   </span>
                 </span>
-              )}
+              ) : null}
               <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
               <span className="absolute bottom-4 left-4 flex items-center gap-3">
                 <span className="grid size-12 place-items-center rounded-full bg-brand text-brand-foreground transition-transform duration-500 ease-brand group-hover:scale-110">

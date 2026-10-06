@@ -213,7 +213,7 @@ export function ServicesList({ items, locale, spaced = true }: { items: Item[]; 
           const href = localePath(`/services/${item.slug}`, locale);
           const setRef = (el: HTMLDivElement | null) => void (mediaRefs.current[i] = el);
           const number = (
-            <span aria-hidden className="num-fill text-[4.5rem] md:text-[6rem]">
+            <span aria-hidden className="num-fill text-num">
               {item.number}
             </span>
           );
