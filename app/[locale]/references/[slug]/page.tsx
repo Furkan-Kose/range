@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getReference, references, referencesSection } from "@/content/references";
 import { ui } from "@/content/navigation";
 import { locales, t, type Locale } from "@/lib/i18n";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, metaDescription } from "@/lib/seo";
 import { mediaExists } from "@/lib/media";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -25,12 +25,14 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/referenc
   const ref = getReference(slug);
   if (!ref) return {};
   const desc = ref.shortDescription ?? ref.description;
+  // Kapak görseli yoksa paylaşımda ilk videonun kapağı görünsün
+  const cover = mediaExists(ref.coverImage) ? ref.coverImage : ref.videos?.[0] ? (await getVideoInfo(ref.videos[0])).thumb : undefined;
   return buildMetadata({
     locale,
     path: `/references/${slug}`,
     title: ref.name,
-    description: desc ? t(desc, locale).slice(0, 160) : `${ref.name} — ${t(referencesSection.metaFallback, locale)}`,
-    image: ref.coverImage,
+    description: desc ? metaDescription(t(desc, locale)) : `${ref.name} — ${t(referencesSection.metaFallback, locale)}`,
+    image: cover,
   });
 }
 

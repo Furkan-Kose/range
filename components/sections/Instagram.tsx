@@ -50,13 +50,13 @@ export function Instagram({ locale }: { locale: Locale }) {
               href={post.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Instagram ${i + 1}`}
+              aria-label={`${t(instagram.postLabel, locale)} ${i + 1}`}
               data-tilt
               className={`relative -mx-3.5 block rounded-[20px] w-[200px] transition-transform duration-500 ease-brand hover:z-10 hover:-translate-y-3 hover:rotate-0 lg:w-[230px] ${fan[i]}`}
             >
               <Media
                 src={post.image}
-                alt={`Instagram ${i + 1}`}
+                alt={`${t(instagram.postLabel, locale)} ${i + 1}`}
                 sizes="230px"
                 className="aspect-[3/4] rounded-[20px] border-[6px] border-background shadow-[var(--shadow)]"
               />
@@ -73,10 +73,10 @@ export function Instagram({ locale }: { locale: Locale }) {
             href={post.href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Instagram ${i + 1}`}
+            aria-label={`${t(instagram.postLabel, locale)} ${i + 1}`}
             className="block w-[60vw] shrink-0 snap-center"
           >
-            <Media src={post.image} alt={`Instagram ${i + 1}`} sizes="60vw" className="aspect-[3/4] rounded-[20px]" />
+            <Media src={post.image} alt={`${t(instagram.postLabel, locale)} ${i + 1}`} sizes="60vw" className="aspect-[3/4] rounded-[20px]" />
           </a>
         ))}
       </div>

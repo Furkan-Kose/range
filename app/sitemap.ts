@@ -12,7 +12,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/services",
     "/references",
     "/about",
-    "/blog",
+    // Blog listesi yalnızca en az bir gerçek (örnek olmayan) yazı varsa
+    ...(blogPosts.some((p) => !p.placeholder) ? ["/blog"] : []),
     "/contact",
     ...services.map((s) => `/services/${s.slug}`),
     ...references.map((r) => `/references/${r.slug}`),

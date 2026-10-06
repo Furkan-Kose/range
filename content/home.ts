@@ -119,6 +119,8 @@ export const instagram = {
     en: "From the set, the stage, the edit.",
   },
   cta: { tr: "Instagram'da Takip Et", en: "Follow on Instagram" },
+  // Görsel alt metni / link etiketi: "Range Media Instagram gönderisi 1"
+  postLabel: { tr: "Range Media Instagram gönderisi", en: "Range Media Instagram post" },
   // @range.media'nın son 5 gönderisi (2026-09-27'de elle çekildi — otomatik güncellenmez).
   // Güncellemek için: görseli public/images/instagram/ altına koy, gönderi linkini yaz. Sıra = sitedeki sıra.
   posts: [

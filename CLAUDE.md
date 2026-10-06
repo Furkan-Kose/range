@@ -41,14 +41,14 @@ content/                      ← TÜM METİN + MEDYA YOLLARI
 lib/  i18n.ts · types.ts · media.ts (dosya var mı?) · seo.ts (metadata)
 components/
   layout/   Navbar, MobileMenu, Footer, Logo, ThemeToggle, LocaleSwitcher
-  ui/       Container, Section (divider prop), SectionDivider, SectionHeading(+Eyebrow), Button, Media, BackgroundVideo, VideoEmbed,
+  ui/       Container, Section (divider prop), SectionDivider, SectionHeading(+Eyebrow), Button, Media, BackgroundVideo,
             Marquee, FilmStripCard, RichText, VideoGallery, icons
   motion/   Reveal, TextReveal, ImageReveal, MotionProvider
   sections/ Hero, Services(+ServicesList), References(+LogoCard, ReferencePreview), WhyRange,
             Testimonials, RngSport, Instagram, ContactCta(ContactSection, ContactChannels),
             ContactForm, PageHero, ReferencesGrid
 public/images/…, public/videos/…   ← medya
-_source/                      ← kullanıcının verdiği orijinal ham içerik. Site KULLANMAZ; silinebilir.
+_source/                      ← kullanıcının verdiği orijinal ham içerik + kullanılmayan dosyalar (`_source/unused/`). Site KULLANMAZ; `.gitignore`'da → repoya/Vercel'e girmez.
 ```
 
 ## İçerik nasıl düzenlenir (component koduna dokunmadan)
@@ -155,6 +155,10 @@ Kullanıcı iki "kinetik/koyu" denemeyi reddetti; onaylanan yön: **açık tema,
 - JSON-LD: `components/seo/JsonLd.tsx`. Layout: Organization (`@id …/#organization`, `sameAs` sadece gerçek profil linkleri) + WebSite. `PageHero` → BreadcrumbList (tüm iç sayfalar otomatik). Hizmet detay → Service. Blog yazısı → BlogPosting (placeholder değilse).
 - Varsayılan paylaşım görseli `public/images/og.jpg` ve ikonlar `public/icon.png` (512), `public/apple-icon.png` (180) logodan otomatik üretildi (koyu zemin + beyaz logo) — gerçek tasarım gelince aynı adla değiştir.
 - Sayfa başı tek h1 (PageHero / Hero).
+- Organization JSON-LD'de gerçek telefon + e-posta + `contactPoint`.
+- Referans detay: meta açıklama `metaDescription()` ile kelime sınırında (~155) kesilir; kapak görseli yoksa OG görseli ilk Vimeo/YouTube kapağı (`buildMetadata` https görselleri de kabul eder).
+- Blog: TÜM yazılar `placeholder` iken `/blog` listesi de `noindex` ve sitemap dışı — ilk gerçek yazı eklenince otomatik açılır.
+- Yayın sonrası: Google Search Console'a `rangemedia.com.tr` ekle + `https://rangemedia.com.tr/sitemap.xml` gönder. Vercel'de ana alan adı yalın `rangemedia.com.tr` olmalı (www → yönlendirme), çünkü canonical'lar ona göre.
 
 ## Placeholder / TODO listesi (içerik bekleyenler)
 
@@ -220,3 +224,4 @@ Kullanıcı iki "kinetik/koyu" denemeyi reddetti; onaylanan yön: **açık tema,
 - 2026-10-05: RNG Sport iç boşlukları diğer bölümlerle eşitlendi (metin bloğundaki ekstra 48px kaldırıldı; masaüstü 1074 → 970px).
 - 2026-10-06: 8 referans tamamen kaldırıldı (içerik + logo + _source); 20 → 12 referans. Logo şeridi geniş ekranda boşluk kalmasın diye kopya sayısını otomatik ayarlıyor.
 - 2026-10-06: NAGE AI referansı eklendi (en başta, tagline + Vimeo video); logo yoksa marka adı fallback'i; `Reference.tagline` alanı.
+- 2026-10-06: `_source` git'ten çıkarıldı (.gitignore); kullanılmayan cursor.png / nage.png `_source/unused`'a; SEO: Organization iletişim bilgisi, referans meta açıklama + Vimeo OG görseli, örnek-blog listesi noindex, Instagram alt metinleri.

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { blogSection, getSortedPosts } from "@/content/blog";
+import { blogPosts, blogSection, getSortedPosts } from "@/content/blog";
 import { ui } from "@/content/navigation";
 import { formatDate, localePath, t, type Locale } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
@@ -17,6 +17,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/blog">):
     path: "/blog",
     title: t(blogSection.eyebrow, locale),
     description: t(blogSection.description, locale),
+    // Tüm yazılar örnek içerikse liste sayfası da arama motorlarına kapalı (gerçek yazı eklenince otomatik açılır)
+    noindex: blogPosts.every((p) => p.placeholder),
   });
 }
 

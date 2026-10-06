@@ -73,6 +73,17 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
     logo: `${site.url}${site.logo.onDark}`,
     image: `${site.url}${site.ogImage}`,
     description: site.seo.description[locale],
+    email: contact.email,
+    telephone: contact.phone.href.replace("tel:", ""),
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer service",
+        telephone: contact.phone.href.replace("tel:", ""),
+        email: contact.email,
+        availableLanguage: ["Turkish", "English"],
+      },
+    ],
     ...(sameAs.length ? { sameAs } : {}),
   };
   const websiteJsonLd = {
