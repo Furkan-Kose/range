@@ -158,13 +158,15 @@ Kullanıcı iki "kinetik/koyu" denemeyi reddetti; onaylanan yön: **açık tema,
 - Organization JSON-LD'de gerçek telefon + e-posta + `contactPoint`.
 - Referans detay: meta açıklama `metaDescription()` ile kelime sınırında (~155) kesilir; kapak görseli yoksa OG görseli ilk Vimeo/YouTube kapağı (`buildMetadata` https görselleri de kabul eder).
 - Blog: TÜM yazılar `placeholder` iken `/blog` listesi de `noindex` ve sitemap dışı — ilk gerçek yazı eklenince otomatik açılır.
-- Yayın sonrası: Google Search Console'a `rangemedia.com.tr` ekle + `https://rangemedia.com.tr/sitemap.xml` gönder. Vercel'de ana alan adı yalın `rangemedia.com.tr` olmalı (www → yönlendirme), çünkü canonical'lar ona göre.
+- Yayın sonrası: Google Search Console'a `rangemedia.com.tr` ekle + `https://rangemedia.com.tr/sitemap.xml` gönder. Ana alan adı **`https://www.rangemedia.com.tr`** (`content/site.ts → url`); Vercel'de yalın `rangemedia.com.tr` → www'ya 308. Bu ikisi hep aynı olmalı.
 
 ## Placeholder / TODO listesi (içerik bekleyenler)
 
 - [x] `content/contact.ts` — telefon 0539 844 45 21, WhatsApp, e-posta range.media0@gmail.com, Instagram @range.media
 - [ ] Adres ve diğer sosyal medya hesapları (LinkedIn/YouTube/Vimeo — şu an listede yok)
-- [ ] `content/site.ts` — gerçek domain (canonical, sitemap, JSON-LD bunu kullanır); istenirse tasarımlı `public/images/og.jpg` (1200×630) ve favicon
+- [x] `content/site.ts` — domain `https://www.rangemedia.com.tr` (www ana adres)
+- [ ] İstenirse tasarımlı `public/images/og.jpg` (1200×630) ve favicon
+- [ ] Natro DNS (öneri, zorunlu değil): A `@` → `216.198.79.1`, CNAME `www` → `7692bf759f62fe85.vercel-dns-017.com` (eski 76.76.21.21 / cname.vercel-dns.com da çalışıyor)
 - [x] Posterler: hero, RNG Sport ve 3 hizmet videosunun 1. saniyesinden otomatik alındı (`public/images/hero-poster.jpg`, `rng-sport-poster.jpg`, `services/*.jpg`) — daha iyi bir kare istenirse aynı adla değiştir
 - [ ] Hizmet görselleri/videoları: `public/images/services/*.jpg` (yollar `services.ts`'de)
 - [ ] Referans kapakları `public/images/references/covers/<slug>.jpg`, galeriler `public/images/references/<slug>/`
@@ -225,3 +227,4 @@ Kullanıcı iki "kinetik/koyu" denemeyi reddetti; onaylanan yön: **açık tema,
 - 2026-10-06: 8 referans tamamen kaldırıldı (içerik + logo + _source); 20 → 12 referans. Logo şeridi geniş ekranda boşluk kalmasın diye kopya sayısını otomatik ayarlıyor.
 - 2026-10-06: NAGE AI referansı eklendi (en başta, tagline + Vimeo video); logo yoksa marka adı fallback'i; `Reference.tagline` alanı.
 - 2026-10-06: `_source` git'ten çıkarıldı (.gitignore); kullanılmayan cursor.png / nage.png `_source/unused`'a; SEO: Organization iletişim bilgisi, referans meta açıklama + Vimeo OG görseli, örnek-blog listesi noindex, Instagram alt metinleri.
+- 2026-10-06: ana alan adı www'ya çekildi (`https://www.rangemedia.com.tr`) — Vercel'deki yapılandırmayla (yalın → www 308) uyumlu.

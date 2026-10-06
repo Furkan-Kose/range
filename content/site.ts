@@ -2,8 +2,8 @@
 
 export const site = {
   name: "Range Media",
-  // TODO: Yayın domain'i belli olunca güncelle (sitemap, OG ve canonical linkler bunu kullanır)
-  url: "https://rangemedia.com.tr",
+  // Ana adres www (Vercel'de yalın adres buraya 308 ile yönleniyor). Sitemap, OG, canonical ve JSON-LD bunu kullanır.
+  url: "https://www.rangemedia.com.tr",
   logo: {
     // Beyaz harfli orijinal logo — koyu temada
     onDark: "/images/logo/logo.png",
