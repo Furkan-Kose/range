@@ -5,15 +5,15 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { mainNav, ui } from "@/content/navigation";
 import { contact, whatsappHref } from "@/content/contact";
-import { localePath, t, type Locale } from "@/lib/i18n";
+import { localePath, t, toInternalPath, type Locale } from "@/lib/i18n";
 import { Phone, WhatsApp } from "@/components/ui/icons";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "./ThemeToggle";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileMenu } from "./MobileMenu";
 
-/** Server'da "/tr/about", client'ta "/about" gelebilir → ikisini de "/about"a indirger. */
-export const normalizePath = (p: string) => p.replace(/^\/(tr|en)(?=\/|$)/, "") || "/";
+/** Server'da "/tr/about", client'ta "/hakkimizda" gelebilir → ikisini de iç yola ("/about") indirger. */
+export const normalizePath = toInternalPath;
 
 type Props = { locale: Locale; logo: ReactNode; logoWhite: ReactNode };
 

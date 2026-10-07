@@ -139,9 +139,21 @@ Kullanıcı iki "kinetik/koyu" denemeyi reddetti; onaylanan yön: **açık tema,
 
 ## i18n
 
-- TR varsayılan, prefix yok: `/about`. EN: `/en/about`. `/tr/...` → prefixsiz adrese 308.
-- `proxy.ts` prefixsiz istekleri içeride `/tr/...`'ye rewrite eder. Link üretirken **her zaman** `localePath(href, locale)`.
-- Client'ta `usePathname()` prefixsiz, server'da `/tr/...` dönebilir → `normalizePath()` (Navbar) / `switchLocalePath()` kullan.
+- TR varsayılan, prefix yok ve adresler TÜRKÇE; EN `/en/` + İngilizce. Klasörler ve koddaki yollar İngilizce (iç yol) kalır:
+
+  | İç yol (kod) | TR | EN |
+  |---|---|---|
+  | `/services` | `/hizmetler` | `/en/services` |
+  | `/references` | `/referanslar` | `/en/references` |
+  | `/about` | `/hakkimizda` | `/en/about` |
+  | `/contact` | `/iletisim` | `/en/contact` |
+  | `/blog` | `/blog` | `/en/blog` |
+
+  Detay slug'ları iki dilde aynı (`/hizmetler/produksiyon` ↔ `/en/services/produksiyon`).
+- Eşleme TEK yerde: `lib/i18n.ts → segmentAliases`. Yeni üst seviye sayfa eklersen TR karşılığını oraya yaz.
+- Kodda link verirken HEP iç yol + `localePath(href, locale)` (ör. `localePath("/services", "tr")` → `/hizmetler`). Canonical, hreflang, sitemap, breadcrumb otomatik doğru olur.
+- `proxy.ts`: `/hizmetler/...` → içeride `/tr/services/...` rewrite; eski İngilizce TR adresleri (`/services`, `/references/x`...) → Türkçeye 308; `/en/hizmetler` → `/en/services` 308; `/tr/...` → öneksiz 308.
+- Gelen adresi iç yola çevirmek için `toInternalPath()` (Navbar aktif menü, `switchLocalePath` dil seçici).
 
 ## SEO / Erişilebilirlik
 
@@ -228,3 +240,4 @@ Kullanıcı iki "kinetik/koyu" denemeyi reddetti; onaylanan yön: **açık tema,
 - 2026-10-06: NAGE AI referansı eklendi (en başta, tagline + Vimeo video); logo yoksa marka adı fallback'i; `Reference.tagline` alanı.
 - 2026-10-06: `_source` git'ten çıkarıldı (.gitignore); kullanılmayan cursor.png / nage.png `_source/unused`'a; SEO: Organization iletişim bilgisi, referans meta açıklama + Vimeo OG görseli, örnek-blog listesi noindex, Instagram alt metinleri.
 - 2026-10-06: ana alan adı www'ya çekildi (`https://www.rangemedia.com.tr`) — Vercel'deki yapılandırmayla (yalın → www 308) uyumlu.
+- 2026-10-07: TR sayfa adresleri Türkçe (/hizmetler, /referanslar, /hakkimizda, /iletisim), EN İngilizce kaldı; eski İngilizce TR adresleri 308 ile Türkçeye yönleniyor (`segmentAliases`, `toInternalPath`).
